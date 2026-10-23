@@ -1,0 +1,371 @@
+{
+  "1020230136220": {
+    "terms": [
+      "지터",
+      "반도체 테스트",
+      "신호 품질",
+      "적분 회로",
+      "비교기",
+      "지터 측정",
+      "피드백 회로",
+      "멀티플렉서",
+      "검출 회로",
+      "가산기",
+      "지터 측정 회로",
+      "양산 단가",
+      "비교 회로",
+      "고속 직렬 인터페이스",
+      "테스트"
+    ],
+    "docs": {
+      "kipris-1020230136220": {
+        "title": "지터 측정 회로 및 지터 측정 방법 (특허공보 1020230136220)",
+        "source_type": "patent_claims",
+        "search_term": ""
+      },
+      "wiki-388277": {
+        "title": "지터",
+        "source_type": "wikipedia",
+        "search_term": "지터"
+      },
+      "wiki-1801235": {
+        "title": "적분회로",
+        "source_type": "wikipedia",
+        "search_term": "적분 회로"
+      },
+      "wiki-2679507": {
+        "title": "비교기",
+        "source_type": "wikipedia",
+        "search_term": "비교기"
+      },
+      "wiki-96173": {
+        "title": "아날로그-디지털 변환회로",
+        "source_type": "wikipedia",
+        "search_term": "지터 측정"
+      },
+      "wiki-88042": {
+        "title": "피드백",
+        "source_type": "wikipedia",
+        "search_term": "피드백 회로"
+      }
+    },
+    "questions": {
+      "적분 회로와 비교기는 이 회로에서 어떤 역할을 하나?": [
+        "적분 회로",
+        "비교기",
+        "지터"
+      ],
+      "이 회로의 지터 측정 결과는 고속 직렬 인터페이스 테스트에서 어떻게 쓰이나?": [
+        "지터",
+        "고속 직렬 인터페이스",
+        "테스트"
+      ],
+      "이 특허가 지터를 측정하는 원리는 무엇인가?": [
+        "지터",
+        "비교기",
+        "적분 회로"
+      ],
+      "지터 측정 회로 및 지터 측정 방법의 청구항 핵심 구성, 해결하려는 문제, 기술 용어": [
+        "지터",
+        "지터 측정",
+        "비교 회로"
+      ]
+    }
+  },
+  "1020210190872": {
+    "terms": [
+      "스캔 체인",
+      "내장 자체시험",
+      "고장 진단"
+    ],
+    "docs": {
+      "kipris-1020210190872": {
+        "title": "스캔 체인의 다중 고장 진단장치 및 방법 (특허공보 1020210190872)",
+        "source_type": "patent_claims",
+        "search_term": ""
+      },
+      "wiki-1051921": {
+        "title": "내장 자체시험",
+        "source_type": "wikipedia",
+        "search_term": "내장 자체시험"
+      },
+      "wiki-3787198": {
+        "title": "자동 시험 패턴 생성",
+        "source_type": "wikipedia",
+        "search_term": "내장 자체시험"
+      }
+    }
+  },
+  "1020230005129": {
+    "terms": [
+      "기계 학습",
+      "스캔 체인",
+      "고장 진단",
+      "천이지연고장",
+      "고장벡터"
+    ],
+    "docs": {
+      "kipris-1020230005129": {
+        "title": "기계 학습에 기반한 스캔 체인 진단방법 및 진단장치 (특허공보 1020230005129)",
+        "source_type": "patent_claims",
+        "search_term": ""
+      },
+      "wiki-128889": {
+        "title": "기계 학습",
+        "source_type": "wikipedia",
+        "search_term": "기계 학습"
+      },
+      "wiki-1116197": {
+        "title": "딥 러닝",
+        "source_type": "wikipedia",
+        "search_term": "기계 학습"
+      },
+      "wiki-383455": {
+        "title": "지도 학습",
+        "source_type": "wikipedia",
+        "search_term": "기계 학습"
+      },
+      "wiki-104257": {
+        "title": "인공지능",
+        "source_type": "wikipedia",
+        "search_term": "고장벡터"
+      },
+      "wiki-383481": {
+        "title": "준지도 학습",
+        "source_type": "wikipedia",
+        "search_term": "고장벡터"
+      }
+    }
+  },
+  "1020060109295": {
+    "terms": [
+      "프로브 카드",
+      "신호채널",
+      "전기적 연결"
+    ],
+    "docs": {
+      "kipris-1020060109295": {
+        "title": "프로브카드 신호채널의 검사장치 및 방법 (특허공보 1020060109295)",
+        "source_type": "patent_claims",
+        "search_term": ""
+      }
+    }
+  },
+  "1020007014772": {
+    "terms": [
+      "내장 자체시험",
+      "BIST",
+      "메모리"
+    ],
+    "docs": {
+      "kipris-1020007014772": {
+        "title": "사용자 정의 메모리 내장형 자체 시험 회로의 자동 생성방법 (특허공보 1020007014772)",
+        "source_type": "patent_claims",
+        "search_term": ""
+      },
+      "wiki-1051921": {
+        "title": "내장 자체시험",
+        "source_type": "wikipedia",
+        "search_term": "내장 자체시험"
+      },
+      "wiki-3787198": {
+        "title": "자동 시험 패턴 생성",
+        "source_type": "wikipedia",
+        "search_term": "내장 자체시험"
+      }
+    }
+  },
+  "1020010029028": {
+    "terms": [
+      "불량 메모리 셀",
+      "내장 자체시험",
+      "메모리 셀 어레이"
+    ],
+    "docs": {
+      "kipris-1020010029028": {
+        "title": "불량 메모리 셀 치환을 위한 테스트 회로를 탑재하는반도체 집적 회로 장치 (특허공보 1020010029028)",
+        "source_type": "patent_claims",
+        "search_term": ""
+      },
+      "wiki-1051921": {
+        "title": "내장 자체시험",
+        "source_type": "wikipedia",
+        "search_term": "내장 자체시험"
+      },
+      "wiki-3787198": {
+        "title": "자동 시험 패턴 생성",
+        "source_type": "wikipedia",
+        "search_term": "내장 자체시험"
+      },
+      "wiki-4036221": {
+        "title": "메모리 셀",
+        "source_type": "wikipedia",
+        "search_term": "메모리 셀 어레이"
+      }
+    }
+  },
+  "1020217038184": {
+    "terms": [
+      "메모리 셀",
+      "내장 자체시험",
+      "3차원 메모리"
+    ],
+    "docs": {
+      "kipris-1020217038184": {
+        "title": "3차원 메모리에 대한 셀 전류 측정 (특허공보 1020217038184)",
+        "source_type": "patent_claims",
+        "search_term": ""
+      },
+      "wiki-1051921": {
+        "title": "내장 자체시험",
+        "source_type": "wikipedia",
+        "search_term": "내장 자체시험"
+      },
+      "wiki-3787198": {
+        "title": "자동 시험 패턴 생성",
+        "source_type": "wikipedia",
+        "search_term": "내장 자체시험"
+      }
+    }
+  },
+  "1020210178936": {
+    "terms": [
+      "스캔 셀",
+      "고장 검출",
+      "신경망"
+    ],
+    "docs": {
+      "kipris-1020210178936": {
+        "title": "스캔 셀의 고장 검출 방법 및 스캔 셀의 고장 검출 장치 (특허공보 1020210178936)",
+        "source_type": "patent_claims",
+        "search_term": ""
+      }
+    }
+  },
+  "1020220053264": {
+    "terms": [
+      "자동 시험 패턴 생성",
+      "내장 자체시험",
+      "전파 지연",
+      "반도체 메모리"
+    ],
+    "docs": {
+      "kipris-1020220053264": {
+        "title": "반도체 메모리 장치의 단위 인버터 전파 지연 측정 회로 (특허공보 1020220053264)",
+        "source_type": "patent_claims",
+        "search_term": ""
+      },
+      "wiki-1051921": {
+        "title": "내장 자체시험",
+        "source_type": "wikipedia",
+        "search_term": "내장 자체시험"
+      }
+    }
+  },
+  "1020047017813": {
+    "terms": [
+      "자동 시험 패턴 생성",
+      "내장 자체시험",
+      "집적 회로"
+    ],
+    "docs": {
+      "kipris-1020047017813": {
+        "title": "다목적 메모리를 지닌 테스터 시스템 (특허공보 1020047017813)",
+        "source_type": "patent_claims",
+        "search_term": ""
+      },
+      "wiki-3787198": {
+        "title": "자동 시험 패턴 생성",
+        "source_type": "wikipedia",
+        "search_term": "자동 시험 패턴 생성"
+      },
+      "wiki-4067939": {
+        "title": "자동 시험 장비",
+        "source_type": "wikipedia",
+        "search_term": "자동 시험 패턴 생성"
+      },
+      "wiki-1051921": {
+        "title": "내장 자체시험",
+        "source_type": "wikipedia",
+        "search_term": "내장 자체시험"
+      }
+    },
+    "questions": {
+      "이 특허가 자동으로 생성하는 회로는 무엇이고, 메모리 자체 시험은 왜 필요한가?": [
+        "자동 시험 패턴 생성",
+        "내장 자체시험",
+        "집적 회로"
+      ]
+    }
+  },
+  "1019980003510": {
+    "terms": [
+      "BIST",
+      "리던던시",
+      "메모리 셀",
+      "빌트인 셀프 테스트",
+      "리던던시 회로",
+      "결함 구제"
+    ],
+    "docs": {
+      "kipris-1019980003510": {
+        "title": "빌트인 셀프 테스트 회로를 구비한 결함구제회로 및 이를 사용한 결함구제방법 (특허공보 1019980003510)",
+        "source_type": "patent_claims",
+        "search_term": ""
+      },
+      "wiki-4036221": {
+        "title": "메모리 셀",
+        "source_type": "wikipedia",
+        "search_term": "메모리 셀"
+      }
+    },
+    "questions": {
+      "이 특허는 불량 셀의 주소를 어떻게 처리하나?": [
+        "BIST",
+        "리던던시",
+        "메모리 셀"
+      ],
+      "이 회로의 양산 단가와 실제 제품 적용 시점은?": [
+        "빌트인 셀프 테스트",
+        "BIST",
+        "리던던시 회로"
+      ],
+      "빌트인 셀프 테스트 회로를 구비한 결함구제회로 및 이를 사용한 결함구제방법의 청구항 핵심 구성, 해결하려는 문제, 기술 용어": [
+        "빌트인 셀프 테스트",
+        "결함 구제",
+        "BIST"
+      ]
+    }
+  },
+  "1020090131793": {
+    "terms": [
+      "메모리 테스트",
+      "내장 자체시험",
+      "트랜지스터"
+    ],
+    "docs": {
+      "kipris-1020090131793": {
+        "title": "반도체 메모리 장치의 테스트 회로 (특허공보 1020090131793)",
+        "source_type": "patent_claims",
+        "search_term": ""
+      },
+      "wiki-1051921": {
+        "title": "내장 자체시험",
+        "source_type": "wikipedia",
+        "search_term": "내장 자체시험"
+      },
+      "wiki-3787198": {
+        "title": "자동 시험 패턴 생성",
+        "source_type": "wikipedia",
+        "search_term": "내장 자체시험"
+      }
+    },
+    "questions": {
+      "이 특허가 자동으로 생성하는 회로는 무엇이고, 메모리 자체 시험은 왜 필요한가?": [
+        "메모리 테스트",
+        "내장 자체시험",
+        "트랜지스터"
+      ]
+    }
+  }
+}
