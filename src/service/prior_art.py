@@ -15,7 +15,14 @@ from typing import Callable
 
 from langchain_core.language_models import BaseChatModel
 
-from src.config import META_COLLECTION, MMR_FETCH_K, PRIOR_ART_CANDIDATES, PRIOR_ART_MAX, PRIOR_ART_MODEL
+from src.config import (
+    DETAIL_CACHE_DIR,
+    META_COLLECTION,
+    MMR_FETCH_K,
+    PRIOR_ART_CANDIDATES,
+    PRIOR_ART_MAX,
+    PRIOR_ART_MODEL,
+)
 from src.data_prep import kipris
 from src.data_prep.items import load_items
 from src.data_prep.patent_search import add_patents, search_kipris
@@ -85,6 +92,8 @@ class PriorArtResult:
     searches: list[KiprisSearch] = field(default_factory=list)
     search_error: str = ""     # KIPRIS 검색을 못 했으면 그 이유 (이미 색인된 특허로만 조사)
     element_names: list[str] = field(default_factory=list)   # 구성요소 짧은 이름 (화면용)
+    candidate_ids: list[str] = field(default_factory=list)   # 메타데이터 검색 후보의 출원번호 (검색 순서, 평가용)
+    selected_ids: list[str] = field(default_factory=list)    # 후보 중 대비 대상으로 고른 출원번호 (선별 순서, 평가용)
 
 
 def split_elements(idea: str, llm: BaseChatModel) -> list[tuple[str, str]]:
@@ -192,7 +201,14 @@ def compare(elements: list[str], names: list[str], meta: dict, reason: str, evid
 
 
 def prior_art_search(idea: str, llm: BaseChatModel | None = None,
-                     progress: Callable[[str], None] = lambda msg: None) -> PriorArtResult:
+                     progress: Callable[[str], None] = lambda msg: None,
+                     expand: bool = True, cached_only: bool = False) -> PriorArtResult:
+    """선행기술 조사.
+
+    expand=False면 KIPRIS 키워드 검색으로 색인을 넓히지 않고 이미 색인된 특허로만 조사한다.
+    cached_only=True면 청구항이 캐시에 없는 특허는 대비에서 뺀다 (KIPRIS 호출 0회).
+    둘 다 자동 평가(src/eval/prior_art_eval.py)에서 외부 호출 없이 같은 조건으로 반복하기 위한 옵션이다.
+    """
     # 구성요소 대비는 "인공지능 모델 ↔ 신경망"처럼 미세한 판정이라 기본 모델로는 판정이 흔들렸다 → 상위 모델
     llm = llm or get_chat(model=PRIOR_ART_MODEL)
 
@@ -202,19 +218,27 @@ def prior_art_search(idea: str, llm: BaseChatModel | None = None,
     if not elements:
         return PriorArtResult(idea, [], 0)
 
-    progress("KIPRIS에서 관련 특허 검색 중…")
-    searches, search_error = expand_index(idea, llm)
+    searches, search_error = [], ""
+    if expand:
+        progress("KIPRIS에서 관련 특허 검색 중…")
+        searches, search_error = expand_index(idea, llm)
 
     progress("비슷한 특허 후보 검색 중…")
     docs = get_store(META_COLLECTION).max_marginal_relevance_search(
         idea, k=PRIOR_ART_CANDIDATES, fetch_k=max(MMR_FETCH_K, 2 * PRIOR_ART_CANDIDATES))
     picked = select_candidates(idea, docs, llm)
+    candidate_ids = [d.metadata["item_id"] for d in docs]
+    selected_ids = [d.metadata["item_id"] for d, _ in picked]
 
     progress(f"선행 특허 {len(picked)}건의 청구항 수집 중…")
     usable, evidence, skipped = [], [], []
     for d, reason in picked:   # KIPRIS는 순차 호출 (간격 규칙). 한 건이 실패해도 나머지로 조사를 이어간다
+        item_id = d.metadata["item_id"]
+        if cached_only and not (DETAIL_CACHE_DIR / f"{item_id}.xml").exists():
+            skipped.append(d.metadata["title"])
+            continue
         try:
-            evidence.append(claim_evidence(d.metadata["item_id"]))
+            evidence.append(claim_evidence(item_id))
             usable.append((d, reason))
         except (MissingAPIKeyError, RuntimeError):
             skipped.append(d.metadata["title"])
@@ -228,7 +252,8 @@ def prior_art_search(idea: str, llm: BaseChatModel | None = None,
         comparisons = list(pool.map(lambda args: compare(elements, names, args[0][0].metadata, args[0][1], args[1], llm),
                                     zip(picked, evidence)))
     comparisons.sort(key=lambda c: c.overlap, reverse=True)
-    return PriorArtResult(idea, elements, len(docs), comparisons, searches, search_error, names)
+    return PriorArtResult(idea, elements, len(docs), comparisons, searches, search_error, names,
+                          candidate_ids, selected_ids)
 
 
 def main() -> None:
