@@ -1,0 +1,7 @@
+# 화면에 오류 추적 정보를 보이지 않는다 — 예상하지 못한 오류도 Streamlit 기본 화면에 경로·코드가 나오지 않게 (NF2004)
+[client]
+showErrorDetails = "none"
+toolbarMode = "minimal"
+
+[browser]
+gatherUsageStats = false

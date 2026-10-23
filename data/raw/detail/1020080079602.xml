@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><response><header><requestMsgID></requestMsgID><responseTime>2026-10-22 17:53:47.5347</responseTime><responseMsgID></responseMsgID><successYN>Y</successYN><resultCode>00</resultCode><resultMsg>NORMAL SERVICE.</resultMsg></header><body><item><biblioSummaryInfoArray><biblioSummaryInfo><applicationDate>2008.08.13</applicationDate><applicationFlag> </applicationFlag><applicationNumber>10-2008-0079602</applicationNumber><claimCount>15</claimCount><examinerName>이경홍</examinerName><finalDisposal>등록결정(일반)</finalDisposal><inventionTitle>프로그래머블 메모리 자체 테스트 회로 생성기 및 그 생성 방법</inventionTitle><inventionTitleEng>APPARATUS FOR GENERATING PROGRAMMABLE MEMORY BUILT IN  SELF TEST CIRCUIT AND METHOD FOR GENERATING THE SAME</inventionTitleEng><openDate>2010.02.23</openDate><openNumber>10-2010-0020827</openNumber><originalApplicationDate> </originalApplicationDate><originalApplicationKind>국내출원/신규</originalApplicationKind><originalApplicationNumber> </originalApplicationNumber><originalExaminationRequestDate>2008.08.13</originalExaminationRequestDate><originalExaminationRequestFlag>Y</originalExaminationRequestFlag><publicationDate>2010.04.09</publicationDate><publicationNumber> </publicationNumber><registerDate>2010.03.30</registerDate><registerNumber>10-0951513-0000</registerNumber><registerStatus>소멸</registerStatus><translationSubmitDate> </translationSubmitDate></biblioSummaryInfo></biblioSummaryInfoArray><ipcInfoArray><ipcInfo><ipcDate>(2006.01.01)</ipcDate><ipcNumber>G06F 11/267</ipcNumber></ipcInfo><ipcInfo><ipcDate>(2006.01.01)</ipcDate><ipcNumber>G06F 11/263</ipcNumber></ipcInfo></ipcInfoArray><familyInfoArray><familyInfo/></familyInfoArray><abstractInfoArray><abstractInfo><astrtCont> 메모리 자체 테스트 회로 생성기 및 그 생성 방법이 제공된다. 본 발명의 일실시예에 의한 프로그래머블 메모리 자체 테스트 회로 생성기는 메모리 자체 테스트를 위한 타겟 메모리에 대한 메모리 설정 정보 및 알고리즘에 대한 알고리즘 정보를 수신하여 상기 메모리 설정 정보 및 상기 알고리즘 정보를 기반으로 라이브러리 정보를 구성하는 라이브러리 구성부, 및 상기 라이브러리 구성부로부터 상기 라이브러리 정보를 로딩(loading)하여 프로그래머블 메모리 자체 테스트 회로(PMBIST IP, Programmable Memory Built-In Self Test IP)를 생성 및 출력하는 PMBIST 생성부를 포함할 수 있고, 상기 프로그래머블 메모리 자체 테스트 회로는 상기 알고리즘을 구현하기 위한 명령어에 대한 인스트럭션 세트를 저장하고, 상기 저장된 인스트럭션 세트로부터 테스트 패턴 데이터를 생성할 수 있다. PMBIST, 프로그래머블 메모리 자체 테스트, 인스트럭션, 알고리즘, 라이브러리 </astrtCont></abstractInfo></abstractInfoArray><internationalInfoArray><internationalInfo><internationOpenDate> </internationOpenDate><internationOpenNumber> </internationOpenNumber><internationalApplicationDate> </internationalApplicationDate><internationalApplicationNumber> </internationalApplicationNumber></internationalInfo></internationalInfoArray><claimInfoArray><claimInfo><claim>1. 타겟 메모리에 대한 메모리 설정 정보 및 알고리즘에 대한 알고리즘 정보를 수신하여 상기 메모리 설정 정보 및 상기 알고리즘 정보를 기반으로 라이브러리 정보를 구성하는 라이브러리 구성부; 및
+상기 라이브러리 구성부로부터 상기 라이브러리 정보를 로딩(loading)하여 프로그래머블 메모리 자체 테스트 회로(PMBIST IP, Programmable Memory Built-In Self Test IP)를 생성하는 PMBIST 생성부
+를 포함하고,
+상기 프로그래머블 메모리 자체 테스트 회로는,
+상기 알고리즘을 구현하기 위한 명령어에 대한 인스트럭션 세트(instruction set)를 저장하는 인스트럭션 저장부;
+사용자로부터 메모리 자체 테스트를 위한 상기 알고리즘에 대응하는 알고리즘 선택 신호를 수신하고, 상기 프로그래머블 메모리 자체 테스트 회로의 동작을 제어하는 메모리 자체 테스트 제어부;
+상기 저장된 인스트럭션 세트로부터 테스트 패턴 데이터를 생성하기 위하여 상기 인스트럭션 저장부를 제어하는 인스트럭션 카운터부; 및
+상기 인스트럭션 저장부로부터 상기 명령어를 독출하여 디코딩하는 인스트럭션 디코더
+를 포함하는 프로그래머블 메모리 자체 테스트 회로 생성기.
+</claim></claimInfo><claimInfo><claim>2. 삭제</claim></claimInfo><claimInfo><claim>3. 제1항에 있어서,
+상기 프로그래머블 메모리 자체 테스트 회로는, 
+상기 메모리 자체 테스트를 위한 상기 테스트 패턴 데이터가 인가될 상기 타겟 메모리의 메모리 주소를 생성하는 주소 생성부;
+상기 테스트 패턴 데이터를 생성하는 데이터 생성부;
+상기 타겟 메모리를 제어하기 위한 메모리 제어 신호를 생성하는 제어 신호 생성부; 및
+상기 메모리 자체 테스트의 결과 정보로부터 상기 타겟 메모리의 고장여부를 판별하는 반응 분석부
+를 더 포함하는 것을 특징으로 하는 프로그래머블 메모리 자체 테스트 회로 생성기.
+</claim></claimInfo><claimInfo><claim>4. 제1항에 있어서,
+상기 메모리 설정 정보는 
+상기 타겟 메모리에 대한 입출력 포트 정보, 입출력 포트의 활성화 상태 정보, 메모리 크기 정보, 읽기/쓰기 시의 타이밍 정보, 또는 상기 메모리 자체 테스트를 위한 메모리 모델 개수 정보를 포함하는 것을 특징으로 하는 프로그래머블 메모리 자체 테스트 회로 생성기.
+</claim></claimInfo><claimInfo><claim>5. 제1항에 있어서,
+상기 라이브러리 정보는 
+상기 테스트 패턴 데이터에 대한 백그라운드 데이터 정보, 컨트롤 신호 정보, 또는 상기 프로그래머블 메모리 자체 테스트 회로에 대한 구조 정보를 포함하는 것을 특징으로 하는 프로그래머블 메모리 자체 테스트 회로 생성기.
+</claim></claimInfo><claimInfo><claim>6. 제1항에 있어서,
+상기 프로그래머블 메모리 자체 테스트 회로는 베릴로그-에이치디엘 코드(Verilog-HDL code) 기반의 시스템 온 칩(SoC)에 내장가능한 파일인 것을 특징으로 하는 프로그래머블 메모리 자체 테스트 회로 생성기.
+</claim></claimInfo><claimInfo><claim>7. 제3항에 있어서,
+상기 인스트럭션 세트는 
+명령어 주소의 증감 정보, 상기 알고리즘의 시퀀스 주소에 대한 증감 정보, 상기 테스트 패턴 데이터에 대한 백그라운드 데이터 정보, 상기 타겟 메모리에 대해 수행되는 읽기/쓰기 동작 수행 정보, 및 상기 메모리 주소의 카운팅을 위한 카운터에 대한 카운터 정보를 포함하는 것을 특징으로 하는 프로그래머블 메모리 자체 테스트 회로 생성기.
+</claim></claimInfo><claimInfo><claim>8. 제3항에 있어서,
+상기 주소 생성부는
+상기 메모리 주소를 순차적으로 증감하는 제1 루프 시퀀스(loop sequence)에 기반하여 상기 메모리 주소를 카운팅하는 제1 카운터부, 및 제2 루프 시퀀스에 기반하여 상기 메모리 주소를 카운팅하는 제2 카운터부 - 상기 제2 루프 시퀀스는 제1 루프 시퀀스에 종속됨 - 를 포함하는 것을 특징으로 하는 프로그래머블 메모리 자체 테스트 회로 생성기.
+</claim></claimInfo><claimInfo><claim>9. 제3항에 있어서,
+상기 반응 분석부는 상기 테스트 패턴 데이터에 대응하는 결과 정보 및 상기 타겟 메모리로부터 독출된 결과 정보를 비교하는 것을 특징으로 하는 프로그래머블 메모리 자체 테스트 회로 생성기.
+</claim></claimInfo><claimInfo><claim>10. 타겟 메모리에 대한 메모리 설정 정보 및 알고리즘에 대한 알고리즘 정보를 포함하는 라이브러리 정보로부터 메모리 자체 테스트 회로 생성기를 통하여 생성된 프로그래머블 메모리 자체 테스트 회로에 있어서,
+상기 알고리즘을 구현하기 위한 명령어에 대한 인스트럭션 세트를 저장하는 인스트럭션 저장부;
+사용자로부터 메모리 자체 테스트를 위한 상기 알고리즘에 대응하는 알고리즘 선택 신호를 수신하고, 상기 프로그래머블 메모리 자체 테스트 회로의 동작을 제어하는 메모리 자체 테스트 제어부;
+상기 저장된 인스트럭션 세트로부터 테스트 패턴 데이터를 생성하기 위해 상기 인스트럭션 저장부를 제어하는 인스트럭션 카운터부; 
+상기 인스트럭션 저장부로부터 상기 명령어를 독출하여 디코딩하는 인스트럭션 디코더;
+상기 메모리 자체 테스트를 위한 상기 테스트 패턴 데이터가 인가될 상기 타겟 메모리의 메모리 주소를 생성하는 주소 생성부;
+상기 테스트 패턴 데이터를 생성하는 데이터 생성부;
+상기 타겟 메모리를 제어하기 위한 메모리 제어 신호를 생성하는 제어 신호 생성부; 및
+상기 메모리 자체 테스트의 결과 정보로부터 상기 타겟 메모리의 고장여부를 판별하는 반응 분석부
+를 포함하는 프로그래머블 메모리 자체 테스트 회로.
+</claim></claimInfo><claimInfo><claim>11. 삭제</claim></claimInfo><claimInfo><claim>12. 메모리 자체 테스트를 위한 타겟 메모리에 대한 메모리 설정 정보 및 알고리즘에 대한 알고리즘 정보를 수신하는 단계;
+상기 메모리 설정 정보 및 상기 알고리즘 정보를 기반으로 라이브러리 정보를 구성하는 단계; 및
+상기 라이브러리 정보를 로딩하여 프로그래머블 메모리 자체 테스트 회로를 생성 및 출력하는 단계
+ 포함하고,
+상기 프로그래머블 메모리 자체 테스트 회로는,
+상기 알고리즘을 구현하기 위한 명령어에 대한 인스트럭션 세트를 저장하고,
+사용자로부터 메모리 자체 테스트를 위한 상기 알고리즘에 대응하는 알고리즘 선택 신호를 수신하며, 
+상기 프로그래머블 메모리 자체 테스트 회로의 동작을 제어하고,
+상기 저장된 인스트럭션 세트로부터 테스트 패턴 데이터를 생성하기 위하여 상기 프로그래머블 메모리 자체 테스트 회로를 제어하고,
+상기 저장된 인스트럭션 세트로부터 상기 명령어를 독출하여 디코딩하는 프로그래머블 메모리 자체 테스트 회로 생성 방법.
+</claim></claimInfo><claimInfo><claim>13. 제12항에 있어서,
+상기 메모리 설정 정보는
+상기 타겟 메모리의 입출력 포트 정보, 상기 입출력 포트의 활성화 상태 정보, 메모리 크기 정보, 읽기/쓰기 시의 타이밍 정보, 또는 상기 메모리 자체 테스트를 위한 메모리 모델 개수 정보를 포함하는 것을 특징으로 하는 프로그래머블 메모리 자체 테스트 회로 생성 방법.
+</claim></claimInfo><claimInfo><claim>14. 제12항에 있어서,
+상기 라이브러리 정보는
+상기 테스트 패턴 데이터에 대한 백그라운드 데이터 정보, 컨트롤 신호 정보, 또는 상기 프로그래머블 메모리 자체 테스트 회로에 대한 구조 정보를 포함하는 것을 특징으로 하는 프로그래머블 메모리 자체 테스트 회로 생성 방법.
+</claim></claimInfo><claimInfo><claim>15. 제12항에 있어서,
+상기 프로그래머블 메모리 자체 테스트 회로는 베릴로그-에이치디엘 코드(Verilog-HDL code) 기반의 시스템 온 칩(SoC)에 내장가능한 파일인 것을 특징으로 하는 프로그래머블 메모리 자체 테스트 회로 생성 방법.
+</claim></claimInfo><claimInfo><claim>16. 제12항에 있어서,
+상기 인스트럭션 세트는 
+명령어 주소의 증감 정보, 상기 알고리즘의 시퀀스 주소에 대한 증감 정보, 상기 테스트 패턴 데이터에 대한 백그라운드 데이터 정보, 상기 타겟 메모리에 대해 수행되는 읽기/쓰기 동작 수행 정보, 및 상기 타겟 메모리의 메모리 주소의 카운팅을 위한 카운터에 대한 카운터 정보를 포함하는 것을 특징으로 하는 프로그래머블 메모리 자체 테스트 회로 생성 방법.
+</claim></claimInfo><claimInfo><claim>17. 제12항 내지 제16항 중 어느 한 항의 방법을 수행하는 프로그램을 기록한 컴퓨터 판독 가능 기록 매체.
+</claim></claimInfo></claimInfoArray><applicantInfoArray><applicantInfo><address>서울특별시 서대문구...</address><code>220050095099</code><country>대한민국</country><engName>UIF (University Industry Foundation), Yonsei University</engName><name>연세대학교 산학협력단</name></applicantInfo></applicantInfoArray><inventorInfoArray><inventorInfo><address>서울시 종로구...</address><code> </code><country>대한민국</country><engName>KANG Sung Ho</engName><name>강성호</name></inventorInfo></inventorInfoArray><agentInfoArray><agentInfo><address>서울특별시 강남구 언주로 ***, *층(역삼동,화물재단빌딩)</address><code>920071000614</code><country>대한민국</country><engName>MUHANN PATENT &amp; LAW FIRM</engName><name>특허법인무한</name></agentInfo></agentInfoArray><priorityInfoArray/><designatedStateInfoArray/><priorArtDocumentsInfoArray><priorArtDocumentsInfo><documentsNumber>KR1020060018542 A</documentsNumber><examinerQuotationFlag>Y</examinerQuotationFlag></priorArtDocumentsInfo><priorArtDocumentsInfo><documentsNumber>KR1020070024864 A</documentsNumber><examinerQuotationFlag>Y</examinerQuotationFlag></priorArtDocumentsInfo></priorArtDocumentsInfoArray><legalStatusInfoArray><legalStatusInfo><commonCodeName>수리 (Accepted) </commonCodeName><documentEngName>[Patent Application] Patent Application</documentEngName><documentName>[특허출원]특허출원서</documentName><receiptDate>2008.08.13</receiptDate><receiptNumber>1-1-2008-0580522-48</receiptNumber></legalStatusInfo><legalStatusInfo><commonCodeName>수리 (Accepted) </commonCodeName><documentEngName>Request for Prior Art Search</documentEngName><documentName>선행기술조사의뢰서</documentName><receiptDate>2009.05.08</receiptDate><receiptNumber>9-1-9999-9999999-89</receiptNumber></legalStatusInfo><legalStatusInfo><commonCodeName>수리 (Accepted) </commonCodeName><documentEngName>Report of Prior Art Search</documentEngName><documentName>선행기술조사보고서</documentName><receiptDate>2009.06.15</receiptDate><receiptNumber>9-1-2009-0036682-62</receiptNumber></legalStatusInfo><legalStatusInfo><commonCodeName>발송처리완료 (Completion of Transmission) </commonCodeName><documentEngName>Notification of reason for refusal</documentEngName><documentName>의견제출통지서</documentName><receiptDate>2009.12.09</receiptDate><receiptNumber>9-5-2009-0508153-18</receiptNumber></legalStatusInfo><legalStatusInfo><commonCodeName>수리 (Accepted) </commonCodeName><documentEngName>[Opinion according to the Notification of Reasons for Refusal] Written Opinion(Written Reply, Written Substantiation)</documentEngName><documentName>[거절이유 등 통지에 따른 의견]의견(답변, 소명)서</documentName><receiptDate>2010.02.09</receiptDate><receiptNumber>1-1-2010-0086193-13</receiptNumber></legalStatusInfo><legalStatusInfo><commonCodeName>보정승인간주 (Regarded as an acceptance of amendment) </commonCodeName><documentEngName>[Amendment to Description, etc.] Amendment</documentEngName><documentName>[명세서등 보정]보정서</documentName><receiptDate>2010.02.09</receiptDate><receiptNumber>1-1-2010-0086194-69</receiptNumber></legalStatusInfo><legalStatusInfo><commonCodeName>발송처리완료 (Completion of Transmission) </commonCodeName><documentEngName>Decision to grant</documentEngName><documentName>등록결정서</documentName><receiptDate>2010.03.12</receiptDate><receiptNumber>9-5-2010-0107650-62</receiptNumber></legalStatusInfo><legalStatusInfo><commonCodeName>수리 (Accepted) </commonCodeName><documentEngName>Notification of change of applicant's information</documentEngName><documentName>출원인정보변경(경정)신고서</documentName><receiptDate>2011.12.15</receiptDate><receiptNumber>4-1-2011-5252006-10</receiptNumber></legalStatusInfo><legalStatusInfo><commonCodeName>수리 (Accepted) </commonCodeName><documentEngName>Notification of change of applicant's information</documentEngName><documentName>출원인정보변경(경정)신고서</documentName><receiptDate>2013.04.24</receiptDate><receiptNumber>4-1-2013-5062749-37</receiptNumber></legalStatusInfo><legalStatusInfo><commonCodeName>수리 (Accepted) </commonCodeName><documentEngName>Notification of change of applicant's information</documentEngName><documentName>출원인정보변경(경정)신고서</documentName><receiptDate>2013.06.24</receiptDate><receiptNumber>4-1-2013-5088566-87</receiptNumber></legalStatusInfo><legalStatusInfo><commonCodeName>수리 (Accepted) </commonCodeName><documentEngName>Notification of change of applicant's information</documentEngName><documentName>출원인정보변경(경정)신고서</documentName><receiptDate>2014.09.25</receiptDate><receiptNumber>4-1-2014-5114224-78</receiptNumber></legalStatusInfo><legalStatusInfo><commonCodeName>수리 (Accepted) </commonCodeName><documentEngName> </documentEngName><documentName>특허고객번호 정보변경(경정)신고서·정정신고서</documentName><receiptDate>2022.10.07</receiptDate><receiptNumber>4-1-2022-5235822-97</receiptNumber></legalStatusInfo><legalStatusInfo><commonCodeName>수리 (Accepted) </commonCodeName><documentEngName> </documentEngName><documentName>특허고객번호 정보변경(경정)신고서·정정신고서</documentName><receiptDate>2022.12.09</receiptDate><receiptNumber>4-1-2022-5292360-75</receiptNumber></legalStatusInfo></legalStatusInfoArray><imagePathInfo><docName>1020080079602.jpg</docName><largePath>http://plus.kipris.or.kr/openapi/fileToss.jsp?arg=452306798ef1fd03bf8e5ba4e1dbf726ca51fc506f3669b9c7441e14d04519cae26fbf9c1580aeb7520a7a12ab593c1b237598aff0bcd48d9ab36dff08a2692a64880bb80453c4e0</largePath><path>http://plus.kipris.or.kr/openapi/fileToss.jsp?arg=ed43a0609e94d6e22d01c5c32ba711cf1293d47ebcb522f948b148966ae058a75ea42397840da4ac459452c091df6bbca17dd8826d54992e3fe0151bc7ec8752c3006bba14fa1060</path></imagePathInfo><rndInfoArray><rndInfo><rndDepartmentName>지식경제부</rndDepartmentName><rndDuration>2007년 09월 01일 ~ 2008년 08월 31일</rndDuration><rndManagingInstituteName>연세대학교 산학협력단</rndManagingInstituteName><rndProjectName>시스템집적반도체기술개발</rndProjectName><rndSpecialInstituteName> </rndSpecialInstituteName><rndTaskContribution> </rndTaskContribution><rndTaskName>고성능/고신뢰성 SoC를 위한 핵심요소 IP 개발</rndTaskName><rndTaskNumber>10030542</rndTaskNumber></rndInfo></rndInfoArray></item></body><count><numOfRows>1</numOfRows><pageNo>1</pageNo><totalCount>1</totalCount></count></response>

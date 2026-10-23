@@ -1,0 +1,26 @@
+.env
+
+__pycache__/
+*.pyc
+
+# 수집 데이터(data/raw, data/processed)와 색인 스냅샷(data/index)은 저장소에 포함한다 —
+# 다른 PC에서 KIPRIS·임베딩 호출 없이 바로 쓰도록. Chroma 저장소는 스냅샷으로 다시 만든다.
+data/raw/api_calls.log
+chroma_db/
+
+.vscode/
+.DS_Store
+
+
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+# 과제 제출물 — 포트폴리오 저장소에는 올리지 않는다
+*.zip
+*.pdf
+submission/
+체크리스트/
