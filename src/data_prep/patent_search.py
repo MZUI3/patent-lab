@@ -1,6 +1,6 @@
 # src/data_prep/patent_search.py — 검색할 때 KIPRIS 전 분야에서 특허를 받아 항목에 더한다
 # 미리 받아 둔 분야(config.KIPRIS_FIELDS) 밖의 아이디어도 조사할 수 있게, 선행기술 조사 때 키워드로 KIPRIS를
-# 검색해 새 특허를 patents_ondemand.json에 쌓는다. 같은 키워드는 캐시로 다시 호출하지 않는다 (NF2002).
+# 검색해 새 특허를 patents_ondemand.json에 쌓는다. 같은 키워드는 캐시로 다시 호출하지 않는다.
 import hashlib
 import json
 

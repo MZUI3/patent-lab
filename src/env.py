@@ -1,4 +1,4 @@
-# src/env.py — .env의 API 키를 읽는 곳은 여기 하나로 모은다 (NF2003)
+# src/env.py — .env의 API 키를 읽는 곳은 여기 하나로 모은다
 import os
 
 from dotenv import load_dotenv
@@ -9,7 +9,7 @@ load_dotenv(ENV_PATH)
 
 
 class MissingAPIKeyError(RuntimeError):
-    """API 키 누락 — 화면에서 안내 문구로 바꿔 보여준다 (F2012)."""
+    """API 키 누락 — 화면에서 안내 문구로 바꿔 보여준다."""
 
 
 def openai_kwargs() -> dict:
@@ -32,7 +32,7 @@ def kipris_key() -> str:
 
 
 def wiki_user_agent() -> str:
-    """위키백과는 연락처가 담긴 User-Agent를 요구한다 (NF2006)."""
+    """위키백과는 연락처가 담긴 User-Agent를 요구한다."""
     if not os.getenv("WIKI_CONTACT"):
         raise MissingAPIKeyError(".env에 WIKI_CONTACT(위키백과 User-Agent에 넣을 연락처)가 없습니다.")
-    return f"patent-rag-edu/0.1 ({os.environ['WIKI_CONTACT']}) python-requests"
+    return f"patent-lab/0.1 ({os.environ['WIKI_CONTACT']}) python-requests"

@@ -6,7 +6,7 @@ EXPERT_ROLE = (
     "특히 반도체 테스트(DFT·스캔·BIST·ATE·프로브·지터 측정 등) 분야에 밝다."
 )
 
-# 프롬프트1 — 검색어 추출 (F2003): 특허와 질문 → 위키백과 검색어 JSON 문자열 배열
+# 프롬프트1 — 검색어 추출: 특허와 질문 → 위키백과 검색어 JSON 문자열 배열
 QUERY_EXTRACTION = ChatPromptTemplate.from_messages([
     ("system", EXPERT_ROLE + """
 사용자가 고른 특허와 질문을 보고, 질문에 답하는 데 필요한 배경 지식을 한국어 위키백과에서 찾을 검색어를 고른다.
@@ -19,7 +19,7 @@ QUERY_EXTRACTION = ChatPromptTemplate.from_messages([
     ("human", "[특허]\n{item_text}\n\n[질문]\n{question}"),
 ])
 
-# 프롬프트2 — 후보 문서 선별 (F2004): 제목·요약만 보고 색인할 후보 번호 JSON 정수 배열
+# 프롬프트2 — 후보 문서 선별: 제목·요약만 보고 색인할 후보 번호 JSON 정수 배열
 CANDIDATE_SELECTION = ChatPromptTemplate.from_messages([
     ("system", EXPERT_ROLE + """
 위키백과 검색 후보 중, 질문에 답하는 근거로 쓸 문서만 고른다. 본문을 받기 전에 제목과 요약만 보고 판단한다.
@@ -34,7 +34,7 @@ CANDIDATE_SELECTION = ChatPromptTemplate.from_messages([
 
 NOT_FOUND = "제공된 문서에서 확인되지 않습니다"
 
-# 프롬프트3 — 답변 생성 (F2007): 근거 블록만 사용, 주요 주장마다 [근거 n]
+# 프롬프트3 — 답변 생성: 근거 블록만 사용, 주요 주장마다 [근거 n]
 ANSWER_GENERATION = ChatPromptTemplate.from_messages([
     ("system", EXPERT_ROLE + """
 사용자가 고른 특허에 대한 질문에, 아래 [근거]에 적힌 내용만 사용해 답한다.
@@ -52,7 +52,7 @@ ANSWER_GENERATION = ChatPromptTemplate.from_messages([
 DISCLAIMER = ("이 서비스는 특허 정보 탐색을 돕는 도구이며, 권리 범위·침해·등록 가능성 등에 대한 "
               "법률 자문을 대신하지 않습니다. 법적 판단은 변리사 등 전문가에게 확인하세요.")
 
-# 도메인 특화 기능 — 청구항 해설 (F2010): 청구항을 비전문가용으로 풀이, 문장마다 [근거 n]
+# 도메인 특화 기능 — 청구항 해설: 청구항을 비전문가용으로 풀이, 문장마다 [근거 n]
 CLAIM_BRIEF = ChatPromptTemplate.from_messages([
     ("system", EXPERT_ROLE + """
 선택한 특허의 청구항과 관련 문서를 바탕으로, 반도체 테스트를 잘 모르는 사람도 이해할 수 있게 특허를 풀이한다.
@@ -77,7 +77,7 @@ CLAIM_BRIEF = ChatPromptTemplate.from_messages([
     ("human", "[근거]\n{evidence}\n\n[특허] {item_title}"),
 ])
 
-# 조건 기반 탐색 (F2011): 후보 특허 중 조건을 모두 만족하는 것만 고른다
+# 조건 기반 탐색: 후보 특허 중 조건을 모두 만족하는 것만 고른다
 CONDITION_FILTER = ChatPromptTemplate.from_messages([
     ("system", EXPERT_ROLE + """
 사용자가 자연어로 적은 조건과 후보 특허 목록을 보고, 조건을 모두 만족하는 특허만 고른다.
@@ -97,7 +97,7 @@ PRIOR_ART_DISCLAIMER = ("선행기술 조사 결과는 색인된 한국 특허(�
                         "검색어에 걸리지 않은 국내 특허와 해외 특허·논문은 포함되지 않으므로, 출원 전에는 변리사 등 "
                         "전문가의 조사를 받으세요.")
 
-# 선행기술 조사 (F2010) ⓪ KIPRIS에서 관련 특허를 더 받기 위한 검색어
+# 선행기술 조사 ⓪ KIPRIS에서 관련 특허를 더 받기 위한 검색어
 SEARCH_KEYWORDS = ChatPromptTemplate.from_messages([
     ("system", EXPERT_ROLE + """
 발명 아이디어와 비슷한 선행 특허를 KIPRIS 초록 검색으로 찾으려 한다. 검색어를 만든다.
@@ -111,7 +111,7 @@ SEARCH_KEYWORDS = ChatPromptTemplate.from_messages([
     ("human", "[아이디어]\n{idea}"),
 ])
 
-# 선행기술 조사 (F2010) ① 아이디어를 청구항식 구성요소로 나눈다
+# 선행기술 조사 ① 아이디어를 청구항식 구성요소로 나눈다
 IDEA_ELEMENTS = ChatPromptTemplate.from_messages([
     ("system", EXPERT_ROLE + """
 사용자가 적은 발명 아이디어를, 선행 특허의 청구항과 하나씩 대비할 수 있는 구성요소로 나눈다.
@@ -127,7 +127,7 @@ IDEA_ELEMENTS = ChatPromptTemplate.from_messages([
     ("human", "[아이디어]\n{idea}"),
 ])
 
-# 선행기술 조사 (F2010) ② 후보 중 기술적으로 가장 가까운 특허를 고른다
+# 선행기술 조사 ② 후보 중 기술적으로 가장 가까운 특허를 고른다
 PRIOR_ART_SELECT = ChatPromptTemplate.from_messages([
     ("system", EXPERT_ROLE + """
 발명 아이디어와 후보 특허 목록을 보고, 아이디어와 기술적으로 가장 가까운 선행 특허를 고른다.
@@ -139,7 +139,7 @@ PRIOR_ART_SELECT = ChatPromptTemplate.from_messages([
     ("human", "[아이디어]\n{idea}\n\n[후보]\n{candidates}"),
 ])
 
-# 선행기술 조사 (F2010) ③ 구성요소마다 선행 특허 청구항에 나와 있는지 대비한다
+# 선행기술 조사 ③ 구성요소마다 선행 특허 청구항에 나와 있는지 대비한다
 ELEMENT_COMPARE = ChatPromptTemplate.from_messages([
     ("system", EXPERT_ROLE + """
 발명 아이디어의 구성요소 각각이 아래 선행 특허의 [근거]에 나와 있는지 대비한다. [근거]에 적힌 내용만 사용한다.

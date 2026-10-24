@@ -1,5 +1,5 @@
 # src/vectorstore/index_meta.py
-# 메타데이터 색인 (F2002, RAG 1): 특허 1건 = 청크 1개, 청크 ID = 출원번호.
+# 메타데이터 색인 (RAG 1): 특허 1건 = 청크 1개, 청크 ID = 출원번호.
 # 실행: python -m src.vectorstore.index_meta [--reset] (프로젝트 루트에서)
 import argparse
 
@@ -46,7 +46,7 @@ def index_items(items: list[Item], store: Chroma, prune: bool = True) -> dict:
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser(description="특허 메타데이터 색인 (F2002)")
+    ap = argparse.ArgumentParser(description="특허 메타데이터 색인")
     ap.add_argument("--reset", action="store_true",
                     help="컬렉션을 지우고 처음부터 색인한다 (인덱스 파일이 손상돼 열리지 않을 때)")
     args = ap.parse_args()

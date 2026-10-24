@@ -1,4 +1,4 @@
-# src/ui/app.py — Patent Lab 화면 (F2009~F2012)
+# src/ui/app.py — Patent Lab 화면
 # 실행: streamlit run src/ui/app.py (프로젝트 루트에서)
 #
 # 중심 기능은 선행기술 조사다. 아이디어를 넣으면 가까운 선행 특허가 왼쪽에 나오고, 특허를 고르면 오른쪽 패널에서
@@ -69,7 +69,7 @@ def missing_keys() -> dict[str, str]:
 
 
 def show_error(e: Exception) -> None:
-    """화면에는 안내만 보여주고, 추적 정보는 서버 로그에만 남긴다 (NF2004)."""
+    """화면에는 안내만 보여주고, 추적 정보는 서버 로그에만 남긴다."""
     log.exception("요청 처리 실패")
     if isinstance(e, MissingAPIKeyError):
         st.error(f"API 키 설정이 필요합니다. {e}")
@@ -93,12 +93,12 @@ def clear_result() -> None:
 # ── 공통 표시 ─────────────────────────────────────────────────────────────────
 
 def render_evidence(cited: list) -> None:
-    """답변에 실제로 인용된 근거만 제목·출처 유형·원문 링크와 함께 보여준다 (F2008)."""
+    """답변에 실제로 인용된 근거만 제목·출처 유형·원문 링크와 함께 보여준다."""
     if not cited:
         st.info("답변에 인용된 근거가 없습니다. 문서에서 확인된 내용이 아닐 수 있습니다.")
         return
     by_type = " · ".join(f"{label} {n}" for label, n in Counter(e.label for e in cited).items())
-    with st.expander(f"근거 문서 {len(cited)}개 ({by_type})", expanded=False):   # 출처 종류 구분 (F2016)
+    with st.expander(f"근거 문서 {len(cited)}개 ({by_type})", expanded=False):   # 출처 종류 구분
         for e in cited:
             st.markdown(f"**[근거 {e.n}]** `{e.label}` [{e.title}]({e.url})")
             excerpt = " ".join(e.text.split())   # 줄바꿈 뒤 "3. "이 번호 목록으로 바뀌지 않게 한 줄로
@@ -136,7 +136,7 @@ def render_comparison(c) -> None:
 
 
 def render_chat(item, keys: dict) -> None:
-    """선택한 특허에 대한 질의응답 (F2007~F2009). 대화 기록은 특허별로 따로 둔다."""
+    """선택한 특허에 대한 질의응답. 대화 기록은 특허별로 따로 둔다."""
     history = st.session_state.histories.setdefault(item.id, [])
     box = st.container(height=440 if history else "content", border=False)
     with box:
@@ -177,7 +177,7 @@ def render_chat(item, keys: dict) -> None:
 
 
 def render_brief(item) -> None:
-    """청구항 해설 (F2010 ②)."""
+    """청구항 해설."""
     brief = st.session_state.briefs.get(item.id)
     st.caption("청구항과 관련 개념 문서를 근거로, 이 특허를 쉬운 말로 풀어 줍니다.")
     if st.button("청구항 해설 만들기" if brief is None else "다시 만들기", key=f"brief-{item.id}"):
@@ -217,7 +217,7 @@ def render_patent_panel(item_id: str, keys: dict, comparison=None) -> None:
             render_brief(item)
 
 
-# ── 페이지: 선행기술 조사 (F2010 ①) ─────────────────────────────────────────
+# ── 페이지: 선행기술 조사 ─────────────────────────────────────────
 
 def page_prior_art() -> None:
     keys = st.session_state.missing_keys
@@ -295,14 +295,14 @@ def page_prior_art() -> None:
             st.caption("왼쪽에서 특허를 고르면 대비표·질문·청구항 해설을 볼 수 있습니다.")
 
 
-# ── 페이지: 조건 탐색 (F2011) ────────────────────────────────────────────────
+# ── 페이지: 조건 탐색 ────────────────────────────────────────────────
 
 def page_explore() -> None:
     keys = st.session_state.missing_keys
     st.title("🔎 특허 찾기")
     mode = st.segmented_control("찾는 방법", ["조건으로 찾기", "이름·번호로 찾기"], default="조건으로 찾기",
                                 key="find_mode", label_visibility="collapsed") or "조건으로 찾기"
-    if mode == "조건으로 찾기":   # F2011: 자연어 조건 → 후보 검색 → LLM 조건 선별
+    if mode == "조건으로 찾기":   # 자연어 조건 → 후보 검색 → LLM 조건 선별
         st.caption("기술·연도·출원인·등록 상태 같은 조건을 자연어로 적으면, 조건을 모두 만족하는 특허만 보여줍니다.")
         with st.form("explore_form"):
             condition = st.text_input("조건", label_visibility="collapsed",
@@ -317,7 +317,7 @@ def page_explore() -> None:
                 st.session_state.sel_explore = matches[0].item_id if matches else None
             except Exception as e:
                 show_error(e)
-    else:   # F2009: 목록에서 질문할 특허를 바로 고른다
+    else:   # 목록에서 질문할 특허를 바로 고른다
         st.caption("특허 명칭·출원인·출원번호의 일부를 적으면 색인된 특허 목록에서 바로 찾습니다. 예) 스캔 체인 연세대 / 1020230136220")
         query = st.text_input("이름·번호", key="find_text", label_visibility="collapsed",
                               placeholder="예) 스캔 체인 연세대")
@@ -385,7 +385,7 @@ with st.sidebar:
         st.caption("선행기술 조사 때 KIPRIS에서 관련 특허를 더 받아 '검색 수집'으로 쌓습니다.")
     st.info(DISCLAIMER, icon="⚖️")
 
-# 진행 불가 상황 안내 (F2012)
+# 진행 불가 상황 안내
 if meta_count == 0:
     st.warning("특허 색인이 비어 있습니다. 터미널에서 `python -m src.vectorstore.index_meta`를 실행한 뒤 새로고침하세요.")
     st.stop()

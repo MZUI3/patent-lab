@@ -1,4 +1,4 @@
-# src/data_prep/http.py — 외부 API 호출 공통 규칙: 재시도·호출 간격·호출 기록·키 가림 (NF2003, NF2006)
+# src/data_prep/http.py — 외부 API 호출 공통 규칙: 재시도·호출 간격·호출 기록·키 가림
 import time
 
 import requests

@@ -1,4 +1,4 @@
-# src/data_prep/wiki.py — 한국어 위키백과 검색·본문 수집. 응답은 캐시해 다시 호출하지 않는다 (NF2002)
+# src/data_prep/wiki.py — 한국어 위키백과 검색·본문 수집. 응답은 캐시해 다시 호출하지 않는다
 import hashlib
 import json
 import re

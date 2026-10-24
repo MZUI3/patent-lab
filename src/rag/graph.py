@@ -1,4 +1,4 @@
-# src/rag/graph.py — RAG 파이프라인 (F2007): retrieve → generate 두 노드의 LangGraph
+# src/rag/graph.py — RAG 파이프라인: retrieve → generate 두 노드의 LangGraph
 #
 # 실행 (프로젝트 루트에서)
 #   python -m src.rag.graph --item 1020230136220 --question "지터를 측정하는 원리는?"
@@ -35,7 +35,7 @@ class RAGState(TypedDict, total=False):
     evidence: list[Evidence]
     # generate 결과
     answer: str
-    cited: list[Evidence]             # 답변에 실제로 인용된 근거만 (F2008)
+    cited: list[Evidence]             # 답변에 실제로 인용된 근거만
 
 
 def build_graph(llm: BaseChatModel | None = None):
@@ -70,7 +70,7 @@ def build_graph(llm: BaseChatModel | None = None):
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser(description="근거 기반 답변 (F2006~F2008)")
+    ap = argparse.ArgumentParser(description="근거 기반 답변")
     ap.add_argument("--item", required=True, help="출원번호")
     ap.add_argument("--question", required=True)
     ap.add_argument("--top-k", type=int, default=TOP_K)

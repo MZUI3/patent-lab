@@ -1,5 +1,5 @@
-# src/eval/compare_search.py — 유사도 검색과 MMR 검색의 근거 차이 비교 (F2014)
-# 실행: python -m src.eval.compare_search [--top-k 5]   결과: docs/eval/f2014_mmr_k<k>.md
+# src/eval/compare_search.py — 유사도 검색과 MMR 검색의 근거 차이 비교
+# 실행: python -m src.eval.compare_search [--top-k 5]   결과: docs/eval/mmr_k<k>.md
 import argparse
 import itertools
 from collections import Counter
@@ -52,7 +52,7 @@ def main() -> None:
 
     items = {it.id: it for it in load_items()}
     store = get_store(DOC_COLLECTION)
-    lines = ["# F2014 유사도 검색 vs MMR 검색 비교\n",
+    lines = ["# 유사도 검색 vs MMR 검색 비교\n",
              f"- 외부 문서 근거 수 k = {k}, MMR 후보 fetch_k = {MMR_FETCH_K}, lambda = {MMR_LAMBDA}",
              "- 겹침 = 고른 청크끼리의 평균 코사인 유사도 (낮을수록 다양)\n"]
 
@@ -76,7 +76,7 @@ def main() -> None:
               f"겹침 {sim['redundancy']:.3f}→{mmr['redundancy']:.3f}, 공통 {same}/{k}")
         print(f"    유사도: {dict(sim['types'])}\n    MMR  : {dict(mmr['types'])}")
 
-    out = OUT_DIR / f"f2014_mmr_k{k}.md"
+    out = OUT_DIR / f"mmr_k{k}.md"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("\n".join(lines), encoding="utf-8")
     print(f"\n결과 저장 → {out}")

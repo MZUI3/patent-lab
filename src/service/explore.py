@@ -1,4 +1,4 @@
-# src/service/explore.py — 조건 기반 특허 탐색 (F2011)
+# src/service/explore.py — 조건 기반 특허 탐색
 # 자연어 조건으로 메타데이터 색인(RAG 1)에서 후보를 찾고, LLM이 조건을 모두 만족하는 특허만 고른다.
 import re
 from dataclasses import dataclass
@@ -38,7 +38,7 @@ def year_filter(condition: str) -> dict | None:
 
 
 def find_by_text(query: str, items: list, limit: int = 30) -> list[Match]:
-    """특허 목록에서 명칭·출원인·출원번호에 입력한 단어가 모두 들어간 특허를 최근 출원 순으로 고른다 (F2009 항목 선택).
+    """특허 목록에서 명칭·출원인·출원번호에 입력한 단어가 모두 들어간 특허를 최근 출원 순으로 고른다.
     LLM·임베딩을 쓰지 않는 단순 목록 검색이라 즉시 나온다."""
     words = [w.lower() for w in query.split() if w.strip()]
     if not words:
