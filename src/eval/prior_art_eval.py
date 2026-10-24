@@ -197,7 +197,7 @@ def main() -> None:
         try:
             r = run_case(case)
         except Exception as e:   # 무료 등급 일일 한도(429) 등 — 한 사례가 실패해도 나머지 결과는 남긴다
-            failed.append({"item_id": case["item_id"], "title": case["title"], "error": str(e)[:300]})
+            failed.append({"item_id": case["item_id"], "title": case["title"], "error": str(e)[:600]})
             print(f"{i:>2}. {case['item_id']} 실패: {str(e)[:120]}")
             continue
         rows.append(r)

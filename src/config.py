@@ -89,7 +89,8 @@ LLM_PROVIDER = _setting("LLM_PROVIDER") or (
 _DEFAULT_MODELS = {   # 제공자별 (기본 모델, 선행기술 조사용 상위 모델)
     "openai": ("gpt-4o-mini", "gpt-4.1"),
     "gms": ("gpt-4o-mini", "gpt-4.1"),
-    "gemini": ("gemini-3.5-flash-lite", "gemini-3.5-flash"),   # 2.5 세대는 신규 사용자에게 제공되지 않음 (2026-10)
+    # 2.5 세대는 신규 사용자에게 제공되지 않고, 3.5-flash는 무료 등급 일일 20회라 조사 3번이면 끝난다 (2026-10) → 둘 다 flash-lite
+    "gemini": ("gemini-3.5-flash-lite", "gemini-3.5-flash-lite"),
 }
 CHAT_MODEL = _setting("CHAT_MODEL", _DEFAULT_MODELS.get(LLM_PROVIDER, _DEFAULT_MODELS["openai"])[0])
 PRIOR_ART_MODEL = _setting("PRIOR_ART_MODEL", _DEFAULT_MODELS.get(LLM_PROVIDER, _DEFAULT_MODELS["openai"])[1])
