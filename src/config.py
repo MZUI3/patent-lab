@@ -5,12 +5,19 @@ from pathlib import Path
 from dotenv import dotenv_values
 
 ROOT = Path(__file__).resolve().parents[1]   # 프로젝트 루트 (src/의 상위)
+_ENV = dotenv_values(ROOT / ".env")
+
+
+def _setting(name: str, default: str = "") -> str:
+    """환경변수 → .env → 기본값. (env.py의 load_dotenv보다 먼저 읽히는 모듈이라 .env를 직접 본다)"""
+    return os.getenv(name) or _ENV.get(name) or default
+
 
 # 경로
 RAW_DIR = ROOT / "data" / "raw"
 PROCESSED_DIR = ROOT / "data" / "processed"
 # Chroma는 Windows에서 비ASCII 경로를 못 읽는 경우가 있어(store.chroma_path), 필요하면 .env의 CHROMA_DIR로 바꾼다
-CHROMA_DIR = Path(os.getenv("CHROMA_DIR") or dotenv_values(ROOT / ".env").get("CHROMA_DIR") or ROOT / "chroma_db")
+CHROMA_DIR = Path(_setting("CHROMA_DIR") or ROOT / "chroma_db")
 ENV_PATH = ROOT / ".env"
 
 SEARCH_CACHE_DIR = RAW_DIR / "search"            # KIPRIS 검색 응답 캐시 (NF2002)
@@ -69,8 +76,30 @@ EXPLORE_MAX_RESULTS = 8              # 조건 탐색 결과 최대 수
 PRIOR_ART_CANDIDATES = 20            # 선행기술 조사에서 메타데이터 색인으로 가져올 후보 수
 PRIOR_ART_MAX = 5                    # 청구항까지 받아 구성요소를 대비할 특허 수 (KIPRIS 호출 최대 5회)
 
-# 모델 (.env에 GMS_KEY만 있으면 SSAFY GMS 프록시를 거친다)
+# ── LLM·임베딩 제공자 ─────────────────────────────────────────────────────────
+# LLM은 OpenAI 호환 API 하나로 다룬다. .env의 키 종류로 제공자를 정한다 (env.openai_kwargs):
+#   OPENAI_API_KEY → OpenAI 직접 / GEMINI_API_KEY → Google Gemini의 OpenAI 호환 주소 (무료 등급 있음)
+#   / GMS_KEY → SSAFY GMS 프록시. LLM_PROVIDER로 직접 지정할 수도 있다.
+# 임베딩은 "openai"(text-embedding-3-small) 또는 "local"(sentence-transformers, CPU, 비용·호출 없음).
+# 임베딩 모델을 바꾸면 벡터가 달라지므로 색인을 처음부터 다시 만들어야 한다 (README '임베딩 모델 바꾸기').
 GMS_BASE_URL = "https://gms.ssafy.io/gmsapi/api.openai.com/v1"
-EMBEDDING_MODEL = "text-embedding-3-small"
-CHAT_MODEL = "gpt-4o-mini"
-PRIOR_ART_MODEL = "gpt-4.1"            # 선행기술 조사의 후보 선별·구성요소 대비 (미세한 판정이라 상위 모델)
+GEMINI_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/openai/"
+LLM_PROVIDER = _setting("LLM_PROVIDER") or (
+    "openai" if _setting("OPENAI_API_KEY") else "gemini" if _setting("GEMINI_API_KEY") else "gms")
+_DEFAULT_MODELS = {   # 제공자별 (기본 모델, 선행기술 조사용 상위 모델)
+    "openai": ("gpt-4o-mini", "gpt-4.1"),
+    "gms": ("gpt-4o-mini", "gpt-4.1"),
+    "gemini": ("gemini-2.5-flash-lite", "gemini-2.5-flash"),
+}
+CHAT_MODEL = _setting("CHAT_MODEL", _DEFAULT_MODELS.get(LLM_PROVIDER, _DEFAULT_MODELS["openai"])[0])
+PRIOR_ART_MODEL = _setting("PRIOR_ART_MODEL", _DEFAULT_MODELS.get(LLM_PROVIDER, _DEFAULT_MODELS["openai"])[1])
+# 선행기술 조사의 후보 선별·구성요소 대비는 미세한 판정이라 상위 모델을 쓴다
+
+EMBEDDING_PROVIDER = _setting("EMBEDDING_PROVIDER", "local" if LLM_PROVIDER == "gemini" else "openai")
+EMBEDDING_MODEL = _setting("EMBEDDING_MODEL",
+                           "BAAI/bge-m3" if EMBEDDING_PROVIDER == "local" else "text-embedding-3-small")
+LOCAL_EMBEDDING_MAX_TOKENS = 1024    # 로컬 모델 입력 길이 상한 — 색인 텍스트(≤1,200자)·청크(1,000자)가 들어가는 크기
+
+# 무료 등급은 분당·일당 요청 수 제한이 있어 429가 흔하다 → 재시도를 늘리고 병렬 호출을 줄인다
+LLM_MAX_RETRIES = int(_setting("LLM_MAX_RETRIES", "6" if LLM_PROVIDER == "gemini" else "2"))
+COMPARE_WORKERS = int(_setting("COMPARE_WORKERS", "1" if LLM_PROVIDER == "gemini" else str(PRIOR_ART_MAX)))

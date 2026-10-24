@@ -5,12 +5,13 @@ import re
 from langchain_core.language_models import BaseChatModel
 from langchain_openai import ChatOpenAI
 
-from src.config import CHAT_MODEL
+from src.config import CHAT_MODEL, LLM_MAX_RETRIES
 from src.env import openai_kwargs
 
 
 def get_chat(temperature: float = 0, model: str = CHAT_MODEL) -> BaseChatModel:
-    return ChatOpenAI(model=model, temperature=temperature, **openai_kwargs())
+    # max_retries: 429(요청 한도)·일시 오류를 지수 백오프로 다시 시도한다. 무료 등급(Gemini)은 한도가 작아 넉넉히 둔다
+    return ChatOpenAI(model=model, temperature=temperature, max_retries=LLM_MAX_RETRIES, **openai_kwargs())
 
 
 def parse_json_array(text: str) -> list:

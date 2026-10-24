@@ -9,14 +9,17 @@
 import gzip
 import json
 import sys
+from datetime import date
 
 import chromadb
 import numpy as np
 
-from src.config import DOC_COLLECTION, META_COLLECTION, ROOT
+from src.config import DOC_COLLECTION, EMBEDDING_MODEL, EMBEDDING_PROVIDER, META_COLLECTION, ROOT
 from src.vectorstore.store import chroma_path
 
 SNAPSHOT_DIR = ROOT / "data" / "index"
+MANIFEST = SNAPSHOT_DIR / "manifest.json"   # 어떤 임베딩 모델로 만든 벡터인지 — 다른 모델 설정에서 복원하면 검색이 틀어진다
+LEGACY_EMBEDDING_MODEL = "text-embedding-3-small"   # manifest가 없던 시절의 스냅샷은 모두 이 모델
 COLLECTIONS = (META_COLLECTION, DOC_COLLECTION)
 BATCH = 1000
 
@@ -29,23 +32,49 @@ def exists() -> bool:
     return all(p.exists() for name in COLLECTIONS for p in _paths(name))
 
 
+def manifest() -> dict:
+    if MANIFEST.exists():
+        return json.loads(MANIFEST.read_text(encoding="utf-8"))
+    return {"embedding_provider": "openai", "embedding_model": LEGACY_EMBEDDING_MODEL}
+
+
+def embedding_model() -> str:
+    return manifest()["embedding_model"]
+
+
+def compatible() -> bool:
+    """스냅샷의 임베딩 모델이 현재 설정(config.EMBEDDING_MODEL)과 같은가. 다르면 복원하지 말고 다시 색인해야 한다."""
+    return embedding_model() == EMBEDDING_MODEL
+
+
 def export() -> dict:
     client = chromadb.PersistentClient(path=chroma_path())
     SNAPSHOT_DIR.mkdir(parents=True, exist_ok=True)
-    counts = {}
+    counts, dim = {}, None
     for name in COLLECTIONS:
         got = client.get_collection(name).get(include=["documents", "metadatas", "embeddings"])
         meta_path, emb_path = _paths(name)
         with gzip.open(meta_path, "wt", encoding="utf-8") as f:
             json.dump({"ids": got["ids"], "documents": got["documents"], "metadatas": got["metadatas"]},
                       f, ensure_ascii=False)
-        np.savez_compressed(emb_path, embeddings=np.asarray(got["embeddings"], dtype=np.float16))
+        emb = np.asarray(got["embeddings"], dtype=np.float16)
+        np.savez_compressed(emb_path, embeddings=emb)
         counts[name] = len(got["ids"])
+        dim = dim or (int(emb.shape[1]) if emb.ndim == 2 and len(emb) else None)
+    MANIFEST.write_text(json.dumps({
+        "embedding_provider": EMBEDDING_PROVIDER, "embedding_model": EMBEDDING_MODEL, "dim": dim,
+        "counts": counts, "exported_at": date.today().isoformat(),
+    }, ensure_ascii=False, indent=2), encoding="utf-8")
     return counts
 
 
 def restore(progress=lambda msg: None) -> dict:
     """스냅샷으로 컬렉션을 다시 만든다. 이미 있는 컬렉션은 지우고 채운다."""
+    if not compatible():
+        raise RuntimeError(
+            f"스냅샷은 임베딩 모델 '{embedding_model()}'로 만든 것인데 현재 설정은 '{EMBEDDING_MODEL}'입니다. "
+            "복원하지 않습니다. 색인을 다시 만드세요: python -m src.vectorstore.index_meta --reset → "
+            "python -m src.vectorstore.index_docs --rebuild → python -m src.vectorstore.snapshot export")
     client = chromadb.PersistentClient(path=chroma_path())
     existing = {c.name for c in client.list_collections()}
     counts = {}
@@ -71,11 +100,14 @@ def main() -> None:
     sys.stdout.reconfigure(encoding="utf-8")
     cmd = sys.argv[1] if len(sys.argv) > 1 else ""
     if cmd == "export":
-        print("스냅샷 저장:", export(), "→", SNAPSHOT_DIR)
+        print("스냅샷 저장:", export(), f"(임베딩 {EMBEDDING_MODEL}) →", SNAPSHOT_DIR)
     elif cmd == "import":
         if not exists():
             raise SystemExit(f"{SNAPSHOT_DIR}에 스냅샷이 없습니다.")
-        print("색인 복원:", restore(progress=print))
+        try:
+            print("색인 복원:", restore(progress=print))
+        except RuntimeError as e:
+            raise SystemExit(f"[중단] {e}")
     else:
         raise SystemExit("사용법: python -m src.vectorstore.snapshot export|import")
 

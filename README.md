@@ -51,7 +51,8 @@
 
 ### 준비
 - Python 3.10 이상 (개발·검증은 3.14.3, Windows 11)
-- 키 3개: SSAFY GMS 키(또는 OpenAI 키), [KIPRIS Plus](https://plus.kipris.or.kr) 서비스 키, 위키백과 User-Agent용 연락처
+- 키 3개: LLM 키([Gemini](https://aistudio.google.com/apikey) 무료 등급 / OpenAI / SSAFY GMS 중 하나), [KIPRIS Plus](https://plus.kipris.or.kr) 서비스 키, 위키백과 User-Agent용 연락처
+- 임베딩은 기본적으로 **로컬 모델(bge-m3)을 CPU에서** 돌린다 — API 호출·비용이 없고, 처음 실행할 때 모델(약 2.2GB)을 내려받는다. `requirements.txt`의 torch·sentence-transformers가 이를 위한 것이다. OpenAI 임베딩을 쓰려면 `.env`에 `EMBEDDING_PROVIDER=openai`.
 
 ```bash
 python -m venv venv
@@ -65,6 +66,17 @@ cp .env.example .env             # Windows cmd: copy .env.example .env  → 값 
 - 처음 실행할 때 색인이 비어 있으면 앱이 스냅샷으로 색인(`chroma_db/`)을 자동으로 만듭니다 (약 20초, API 호출·임베딩 비용 없음).
 - 직접 하려면 `python -m src.vectorstore.snapshot import`.
 - 이 PC에서 선행기술 조사·질문으로 특허·문서가 늘어나면, **커밋 전에** `python -m src.vectorstore.snapshot export`로 스냅샷을 갱신하세요.
+- 스냅샷에는 어떤 임베딩 모델로 만든 벡터인지가 기록된다(`data/index/manifest.json`). 현재 설정과 다르면 복원하지 않고 안내만 한다 — 질문 벡터와 색인 벡터의 모델이 다르면 검색이 조용히 틀어지기 때문이다.
+
+### 임베딩 모델 바꾸기 (LLM·임베딩 제공자 전환)
+처음에는 SSAFY GMS 프록시로 OpenAI 모델(`gpt-4o-mini`·`gpt-4.1`, `text-embedding-3-small`)을 썼다. 교육용 키가 만료된 뒤 **비용 0원**으로 유지하기 위해 LLM은 Gemini 무료 등급(OpenAI 호환 주소), 임베딩은 로컬 `BAAI/bge-m3`로 바꿨다. 코드는 OpenAI 호환 API 하나로 짜여 있어 LLM은 `.env`의 키 종류만 바꾸면 되고, 임베딩만 벡터가 달라져 색인을 다시 만들어야 한다.
+
+```bash
+python -m src.vectorstore.index_meta --reset      # 1) 메타데이터 컬렉션을 지우고 새 모델로 다시 임베딩 (10,284건, CPU 수십 분)
+python -m src.vectorstore.index_docs --rebuild    # 2) 문서 컬렉션을 캐시로 다시 청킹·임베딩 (외부 호출 없음)
+python -m src.vectorstore.snapshot export         # 3) 새 스냅샷 저장 (manifest에 모델 기록) → 커밋
+```
+무료 등급은 분당·일당 요청 한도가 작아 `LLM_MAX_RETRIES`(재시도)와 `COMPARE_WORKERS`(선행기술 조사의 특허별 대비 병렬 수)를 `.env`에서 조정한다. Gemini 기본값은 재시도 6회, 대비 순차 호출이다. 전환 전후의 조사 품질 차이는 [선행기술 조사 자동 평가](#선행기술-조사-자동-평가)로 잰다.
 
 ### 데이터를 처음부터 다시 만들 때
 프로젝트 루트에서 모듈로 실행합니다.
