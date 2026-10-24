@@ -9,9 +9,9 @@
 import difflib
 import re
 import sys
+from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
-from typing import Callable
 
 from langchain_core.language_models import BaseChatModel
 

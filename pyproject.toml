@@ -1,0 +1,31 @@
+[project]
+name = "patent-lab"
+version = "0.2.0"
+description = "선행기술 조사 RAG — 아이디어를 청구항 구성요소와 대비하고, 겹침 판정을 청구항 원문 구절로 검증"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { file = "LICENSE" }
+authors = [{ name = "Yang Gyeongdong" }]
+# 런타임 의존성은 requirements.txt(버전 고정)로 관리한다.
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-q"
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+extend-exclude = ["venv", "data", "docs"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+ignore = ["E501", "B905"]   # 줄 길이는 120자 기준으로 사람이 판단, zip(strict=)는 길이가 같은 쌍에만 쓰여 생략
+
+[tool.ruff.lint.isort]
+known-first-party = ["src"]
+
+[tool.ruff.lint.per-file-ignores]
+"src/eval/verify.py" = ["E402"]   # sys.path·stdout 설정 뒤에 import해야 하는 점검 스크립트
+"src/ui/app.py" = ["E402"]        # streamlit은 스크립트 폴더만 path에 넣어 먼저 sys.path를 고친다

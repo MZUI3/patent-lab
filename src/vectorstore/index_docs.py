@@ -130,7 +130,7 @@ def main() -> None:
         store = get_store(DOC_COLLECTION)
         print(f"\n'{DOC_COLLECTION}' 청크 수: {len(store.get(include=[])['ids'])}개 {dict(stats(store))}")
     except (FileNotFoundError, MissingAPIKeyError) as e:
-        raise SystemExit(f"[중단] {e}")
+        raise SystemExit(f"[중단] {e}") from e
 
 
 if __name__ == "__main__":

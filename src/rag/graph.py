@@ -85,7 +85,7 @@ def main() -> None:
     try:
         app = build_graph()
     except MissingAPIKeyError as e:
-        raise SystemExit(f"[중단] {e}")
+        raise SystemExit(f"[중단] {e}") from e
     if args.show_graph:
         print(app.get_graph().draw_mermaid())
 

@@ -5,8 +5,8 @@ import hashlib
 import json
 
 from src.config import (
-    ONDEMAND_ROWS,
     ONDEMAND_FIELD,
+    ONDEMAND_ROWS,
     PATENTS_JSON,
     PATENTS_ONDEMAND_JSON,
     SEARCH_CACHE_DIR,
@@ -15,7 +15,7 @@ from src.data_prep import kipris
 
 
 def _cached_search(op: str, params: dict, tag: str, query: str) -> tuple[int, list[dict]]:
-    key = hashlib.sha1(f"{op}:{query}".encode("utf-8")).hexdigest()[:16]
+    key = hashlib.sha1(f"{op}:{query}".encode()).hexdigest()[:16]
     cache = SEARCH_CACHE_DIR / f"{tag}_{key}_rows{ONDEMAND_ROWS}.xml"
     if cache.exists():
         content = cache.read_bytes()

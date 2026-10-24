@@ -107,7 +107,7 @@ def main() -> None:
         try:
             print("색인 복원:", restore(progress=print))
         except RuntimeError as e:
-            raise SystemExit(f"[중단] {e}")
+            raise SystemExit(f"[중단] {e}") from e
     else:
         raise SystemExit("사용법: python -m src.vectorstore.snapshot export|import")
 
