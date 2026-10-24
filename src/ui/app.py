@@ -12,7 +12,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))   # streamlit은 �
 
 import streamlit as st
 
-from src.config import DOC_COLLECTION, META_COLLECTION, PATENTS_JSON
+from src.config import DOC_COLLECTION, EMBEDDING_MODEL, META_COLLECTION, PATENTS_JSON
 from src.data_prep.docs import SOURCE_LABELS
 from src.data_prep.items import load_items
 from src.env import MissingAPIKeyError, kipris_key, openai_kwargs, wiki_user_agent
@@ -360,6 +360,12 @@ if not PATENTS_JSON.exists():
 
 meta_count, doc_count = count_chunks(META_COLLECTION), count_chunks(DOC_COLLECTION)
 if meta_count == 0 and snapshot.exists():   # 다른 PC에서 처음 실행: 저장소의 스냅샷으로 색인을 만든다 (API 호출 없음)
+    if not snapshot.compatible():   # 임베딩 모델이 다른 스냅샷을 복원하면 질문 벡터와 색인 벡터가 맞지 않아 검색이 틀어진다
+        st.warning(f"저장소의 색인 스냅샷은 임베딩 모델 `{snapshot.embedding_model()}`로 만든 것이라 현재 설정 "
+                   f"`{EMBEDDING_MODEL}`에서는 쓸 수 없습니다. 터미널에서 색인을 다시 만드세요:\n\n"
+                   "`python -m src.vectorstore.index_meta --reset` → `python -m src.vectorstore.index_docs --rebuild` "
+                   "→ `python -m src.vectorstore.snapshot export`")
+        st.stop()
     with st.spinner("저장소에 포함된 색인 스냅샷으로 색인을 만드는 중입니다 (처음 한 번, 약 20초)…"):
         snapshot.restore()
     st.rerun()

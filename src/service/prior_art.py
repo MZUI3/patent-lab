@@ -16,6 +16,7 @@ from typing import Callable
 from langchain_core.language_models import BaseChatModel
 
 from src.config import (
+    COMPARE_WORKERS,
     DETAIL_CACHE_DIR,
     META_COLLECTION,
     MMR_FETCH_K,
@@ -248,7 +249,8 @@ def prior_art_search(idea: str, llm: BaseChatModel | None = None,
             f"청구항을 받지 못해 대비에서 뺀 특허 {len(skipped)}건"
 
     progress("구성요소별 대비 중…")
-    with ThreadPoolExecutor(max_workers=max(1, len(picked))) as pool:
+    # 특허별 대비는 서로 독립이라 병렬로 돌리되, 분당 요청 한도가 작은 무료 등급에서는 COMPARE_WORKERS=1로 순차 호출
+    with ThreadPoolExecutor(max_workers=max(1, min(COMPARE_WORKERS, len(picked)))) as pool:
         comparisons = list(pool.map(lambda args: compare(elements, names, args[0][0].metadata, args[0][1], args[1], llm),
                                     zip(picked, evidence)))
     comparisons.sort(key=lambda c: c.overlap, reverse=True)

@@ -3,7 +3,7 @@ import os
 
 from dotenv import load_dotenv
 
-from src.config import ENV_PATH, GMS_BASE_URL
+from src.config import ENV_PATH, GEMINI_BASE_URL, GMS_BASE_URL
 
 load_dotenv(ENV_PATH)
 
@@ -13,12 +13,16 @@ class MissingAPIKeyError(RuntimeError):
 
 
 def openai_kwargs() -> dict:
-    """OpenAI 클라이언트 인자. OPENAI_API_KEY가 있으면 OpenAI에 직접, 없으면 GMS_KEY로 SSAFY GMS를 거친다."""
+    """OpenAI 호환 클라이언트 인자. 키 종류로 제공자를 정한다:
+    OPENAI_API_KEY → OpenAI 직접, GEMINI_API_KEY → Gemini의 OpenAI 호환 주소, GMS_KEY → SSAFY GMS 프록시.
+    OPENAI_BASE_URL을 주면 어느 경우든 그 주소를 쓴다."""
     if os.getenv("OPENAI_API_KEY"):
         return {"api_key": os.environ["OPENAI_API_KEY"], "base_url": os.getenv("OPENAI_BASE_URL")}
+    if os.getenv("GEMINI_API_KEY"):
+        return {"api_key": os.environ["GEMINI_API_KEY"], "base_url": os.getenv("OPENAI_BASE_URL") or GEMINI_BASE_URL}
     if os.getenv("GMS_KEY"):
         return {"api_key": os.environ["GMS_KEY"], "base_url": os.getenv("OPENAI_BASE_URL") or GMS_BASE_URL}
-    raise MissingAPIKeyError(".env에 GMS_KEY(또는 OPENAI_API_KEY)가 없습니다.")
+    raise MissingAPIKeyError(".env에 LLM 키가 없습니다 (GEMINI_API_KEY, OPENAI_API_KEY, GMS_KEY 중 하나).")
 
 
 def kipris_key() -> str:

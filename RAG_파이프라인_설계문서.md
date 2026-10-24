@@ -22,7 +22,7 @@
 - 수집을 retrieve 노드 안에 둔 이유: 수집은 질문에 따라 달라지고(검색어가 질문에서 나온다) 검색 바로 앞에 끝나야 하므로, 별도 노드로 나누면 상태만 늘고 순서는 같다. 대신 화면에서는 노드 단위 스트림으로 "수집·검색 중 → 답변 생성 중"을 나눠 보여준다.
 
 ## 2. Vector DB 컬렉션과 메타데이터
-Chroma 영구 저장소(`chroma_db/`), 임베딩 `text-embedding-3-small`, 거리 cosine.
+Chroma 영구 저장소(`chroma_db/`), 거리 cosine. 임베딩 모델은 `src/config.py`의 `EMBEDDING_PROVIDER`·`EMBEDDING_MODEL`로 정한다 — 처음에는 OpenAI `text-embedding-3-small`(1,536차원)을 썼고, 교육용 키 만료 뒤 비용 0원을 위해 로컬 `BAAI/bge-m3`(1,024차원, CPU)로 바꿨다 (README "임베딩 모델 바꾸기"). 아래 수치는 전환 전 측정값이다.
 
 ### patent_meta (RAG 1) — 항목 메타데이터
 | 항목 | 값 |

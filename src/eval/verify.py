@@ -361,7 +361,7 @@ def _():
     # 스냅샷이 있으면 앱이 스스로 색인을 복원하므로, "색인도 스냅샷도 없는" 상태를 만든다
     with mock.patch.object(store_mod, "CHROMA_DIR", empty), mock.patch("src.vectorstore.snapshot.exists", return_value=False):
         no_index = run_app(open_item=None)
-    saved = {k: os.environ.pop(k) for k in ("GMS_KEY", "OPENAI_API_KEY") if k in os.environ}
+    saved = {k: os.environ.pop(k) for k in ("GMS_KEY", "OPENAI_API_KEY", "GEMINI_API_KEY") if k in os.environ}
     try:
         no_key = run_app(open_item=None)
     finally:
@@ -384,7 +384,7 @@ def _():
 
 @check("NF2003", "소스코드와 저장소 이력에 API 키가 남아 있지 않다")
 def _():
-    env = {k: v for k, v in dotenv_values(ENV_PATH).items() if v and k in ("GMS_KEY", "KIPRIS_API_KEY", "OPENAI_API_KEY")}
+    env = {k: v for k, v in dotenv_values(ENV_PATH).items() if v and k in ("GMS_KEY", "KIPRIS_API_KEY", "OPENAI_API_KEY", "GEMINI_API_KEY")}
     found = []
     for k, v in env.items():
         tracked = subprocess.run(["git", "grep", "-l", "-F", v], cwd=ROOT, capture_output=True, text=True).stdout.strip()
