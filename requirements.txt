@@ -13,3 +13,7 @@ requests==2.34.2
 python-dotenv==1.2.3
 typing-extensions==4.16.0
 numpy==2.5.4
+
+# 로컬 임베딩 (EMBEDDING_PROVIDER=local) — CPU용 torch, 처음 쓸 때 bge-m3 모델 약 2.2GB 내려받음
+torch==2.14.1
+sentence-transformers==6.2.0
