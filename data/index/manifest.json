@@ -1,0 +1,10 @@
+{
+  "embedding_provider": "local",
+  "embedding_model": "BAAI/bge-m3",
+  "dim": 1024,
+  "counts": {
+    "patent_meta": 10284,
+    "patent_docs": 319
+  },
+  "exported_at": "2026-10-24"
+}
