@@ -1,9 +1,9 @@
-# 터미널 확인 결과 (4장)
+# 터미널 확인 결과
 
 - 실행: 2026-10-23 01:39, 프로젝트 루트에서 `python <명령>`
-- 화면 확인 결과는 [../screenshots](../screenshots), 전체 결과표는 [../verification.md](../verification.md)
+- 화면 확인 결과는 [../screenshots](../screenshots), 전체 결과표는 [../qa.md](../qa.md)
 
-## 4.1 항목 수·분야 분포와 색인 텍스트 1건 (F2001)
+## 항목 수·분야 분포와 색인 텍스트 1건
 ```
 $ python -m src.data_prep.items   # 0.7초
 원본 10284건 → 항목 10284건 (빈 값·중복 제외 0건)
@@ -33,7 +33,7 @@ IPC 분류: G01R 31/317, G01R 31/3183
   "status": "공개",
 ```
 
-## 4.1 메타데이터 색인 1회차 (F2002)
+## 메타데이터 색인 1회차
 ```
 $ python -m src.vectorstore.index_meta   # 5.2초
 'patent_meta' 컬렉션에 항목 10284건 색인 시작
@@ -41,7 +41,7 @@ $ python -m src.vectorstore.index_meta   # 5.2초
 저장된 청크 수: 10284건 (로드한 항목 10284건과 일치)
 ```
 
-## 4.1 메타데이터 색인 2회차 — 청크 수가 늘지 않음 (F2002)
+## 메타데이터 색인 2회차 — 청크 수가 늘지 않음
 ```
 $ python -m src.vectorstore.index_meta   # 5.1초
 'patent_meta' 컬렉션에 항목 10284건 색인 시작
@@ -49,7 +49,7 @@ $ python -m src.vectorstore.index_meta   # 5.1초
 저장된 청크 수: 10284건 (로드한 항목 10284건과 일치)
 ```
 
-## 4.2 문서 수집·선별·색인 — 검색어(프롬프트1)와 색인/버림 문서(프롬프트2) (F2003~F2005)
+## 문서 수집·선별·색인 — 검색어(프롬프트1)와 색인/버림 문서(프롬프트2)
 ```
 $ python -m src.vectorstore.index_docs --item 1020230136220 --question "이 회로의 지터 측정 결과는 고속 직렬 인터페이스 테스트에서 어떻게 쓰이나?"   # 10.9초
 [1020230136220] 지터 측정 회로 및 지터 측정 방법
@@ -66,7 +66,7 @@ $ python -m src.vectorstore.index_docs --item 1020230136220 --question "이 회�
 'patent_docs' 청크 수: 309개 {'KIPRIS 특허공보(청구항)': 51, '한국어 위키백과': 258}
 ```
 
-## 4.2 같은 질문 재실행 — 수집이 다시 일어나지 않음 (NF2002)
+## 같은 질문 재실행 — 수집이 다시 일어나지 않음
 ```
 $ python -m src.vectorstore.index_docs --item 1020230136220 --question "이 회로의 지터 측정 결과는 고속 직렬 인터페이스 테스트에서 어떻게 쓰이나?"   # 5.0초
 [1020230136220] 지터 측정 회로 및 지터 측정 방법
@@ -83,7 +83,7 @@ $ python -m src.vectorstore.index_docs --item 1020230136220 --question "이 회�
 'patent_docs' 청크 수: 309개 {'KIPRIS 특허공보(청구항)': 51, '한국어 위키백과': 258}
 ```
 
-## 4.3 LangGraph 구조(retrieve → generate)와 답변·근거 (F2006~F2008)
+## LangGraph 구조(retrieve → generate)와 답변·근거
 ```
 $ python -m src.rag.graph --show-graph --no-collect --item 1020230136220 --question "이 특허가 지터를 측정하는 원리는 무엇인가?"   # 9.0초
 ---
@@ -121,7 +121,7 @@ graph TD;
   [근거 1] (특허 메타데이터) 지터 측정 회로 및 지터 측정 방법 — https://doi.org/10.8080/1020230136220
 ```
 
-## 4.3 Top-k = 3
+## Top-k = 3
 ```
 $ python -m src.rag.graph --no-collect --top-k 3 --item 1020230136220 --question "이 특허가 지터를 측정하는 원리는 무엇인가?"   # 9.9초
 [1020230136220] 지터 측정 회로 및 지터 측정 방법
@@ -140,7 +140,7 @@ $ python -m src.rag.graph --no-collect --top-k 3 --item 1020230136220 --question
   [근거 1] (특허 메타데이터) 지터 측정 회로 및 지터 측정 방법 — https://doi.org/10.8080/1020230136220
 ```
 
-## 4.3 Top-k = 10
+## Top-k = 10
 ```
 $ python -m src.rag.graph --no-collect --top-k 10 --item 1020230136220 --question "이 특허가 지터를 측정하는 원리는 무엇인가?"   # 10.6초
 [1020230136220] 지터 측정 회로 및 지터 측정 방법
@@ -167,7 +167,7 @@ $ python -m src.rag.graph --no-collect --top-k 10 --item 1020230136220 --questio
   [근거 3] (KIPRIS 특허공보(청구항)) 지터 측정 회로 및 지터 측정 방법 (특허공보 1020230136220) — https://doi.org/10.8080/1020230136220
 ```
 
-## 4.3 문서에 없는 질문 — 확인되지 않음, 인용 없음 안내
+## 문서에 없는 질문 — 확인되지 않음, 인용 없음 안내
 ```
 $ python -m src.rag.graph --no-collect --item 1020230136220 --question "이 회로의 양산 단가와 삼성전자 제품 적용 시점은?"   # 7.4초
 [1020230136220] 지터 측정 회로 및 지터 측정 방법
