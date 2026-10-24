@@ -1,0 +1,507 @@
+{
+  "label": "baseline-gemini",
+  "settings": {
+    "prior_art_model": "gemini-3.5-flash",
+    "embedding_model": "BAAI/bge-m3",
+    "candidates": 20,
+    "max_compare": 5,
+    "mmr_fetch_k": 30,
+    "expand": false,
+    "cached_only": true
+  },
+  "summary": {
+    "cases": 6,
+    "recall_at_20": 0.6666666666666666,
+    "recall_at_5": 0.6666666666666666,
+    "mrr_at_5": 0.5833333333333334,
+    "source_compared": 4,
+    "disclosed_rate": 1.0,
+    "disclosed_or_partial_rate": 1.0,
+    "overlap_top1_rate": 1.0,
+    "mean_seconds": 41.233333333333334,
+    "mean_tokens": 4968.833333333333,
+    "mean_cost_usd": null,
+    "failed": 34
+  },
+  "cases": [
+    {
+      "item_id": "1019960065733",
+      "title": "메모리 테스트 패턴 생성기",
+      "n_elements": 4,
+      "elements": [
+        "데이터를 출력하는 드-브론 카운터",
+        "드-브론 카운터에서 나온 데이터들을 바탕으로 가중치 생성기 출력값을 생성하는 가중치 생성기",
+        "드-브론 카운터가 내보내는 특정 출력값에 따라 가중치 생성기 출력값을 그대로 유지하거나 반전시키는 제어부",
+        "유지되거나 반전된 가중치 생성기 출력값을 이용해 메모리를 테스트하는 랜덤 패턴을 생성하는 패턴 생성부"
+      ],
+      "candidate_rank": 2,
+      "selected_rank": 2,
+      "compared": 2,
+      "skipped_note": "청구항을 받지 못해 대비에서 뺀 특허 2건",
+      "source_overlap": 1.0,
+      "source_statuses": {
+        "개시": 4,
+        "일부": 0,
+        "미개시": 0
+      },
+      "source_rows": [
+        {
+          "element": "드-브론 카운터",
+          "status": "개시",
+          "quote": "드-브론 카운터로부터 출력되는 각각의 데이터를 입력으로 하여",
+          "note": "드-브론 카운터 및 거기서 데이터를 출력하는 구성이 근거 1의 청구항 1에 명시되어 있다."
+        },
+        {
+          "element": "가중치 생성기",
+          "status": "개시",
+          "quote": "드-브론 카운터로부터 출력되는 각각의 데이터를 입력으로 하여 가중치 생성기 출력값을 생성하고",
+          "note": "드-브론 카운터 출력을 바탕으로 가중치 생성기 출력값을 생성하는 가중치 생성기 구성이 근거 1의 청구항 1에 개시되어 있다."
+        },
+        {
+          "element": "출력 제어부",
+          "status": "개시",
+          "quote": "상기 드-브론 카운터의 어느 한 출력값에 따라서 가중치 생성기 출력값을 반전하거나 유지하는",
+          "note": "드-브론 카운터의 특정 출력값에 따라 가중치 생성기 출력값을 유지하거나 반전시키는 제어 역할이 근거 1의 청구항 1에 개시되어 있다."
+        },
+        {
+          "element": "랜덤 패턴 생성부",
+          "status": "개시",
+          "quote": "가중 랜덤 패턴 생성기를 포함하여 구성되는 것을 특징으로 하는 메모리 테스트 패턴 생성기.",
+          "note": "유지 또는 반전된 출력값을 바탕으로 메모리 테스트용 가중 랜덤 패턴을 생성하는 패턴 생성 구성이 근거 1의 청구항 1에 개시되어 있다."
+        }
+      ],
+      "best_other_overlap": 0.125,
+      "overlap_rank": 1,
+      "others": [
+        {
+          "item_id": "1020080079602",
+          "title": "프로그래머블 메모리 자체 테스트 회로 생성기 및 그 생성 방법",
+          "overlap": 0.125
+        }
+      ],
+      "seconds": 51.0,
+      "prompt_tokens": 4296,
+      "completion_tokens": 434,
+      "est_cost_usd": null
+    },
+    {
+      "item_id": "1019970074146",
+      "title": "메모리의 테스트 방법",
+      "n_elements": 4,
+      "elements": [
+        "첫 주소부터 끝 주소까지 차례대로 첫 번째 값을 채운 뒤 다시 처음부터 끝까지 그 값을 읽어내면서 두 번째 값으로 바꿔 쓰는 구성",
+        "단일포트와 이중포트 메모리를 구분하여 첫 주소에서 끝 주소 방향 또는 반대 방향으로 주소를 이동하며 두 값의 읽기와 쓰기 및 반전된 토글 값 처리 작업을 포트별로 수행하는 구성",
+        "이중포트 구조에서 두 포트를 동시에 활용하여 특정 주소와 인접한 주소에서 데이터를 동시에 읽고 쓰는 교차 검증을 수행하는 구성",
+        "끝 주소에서 처음 주소 방향으로 거꾸로 이동하며 최종 데이터를 읽어내는 순서로 메모리 이상 유무를 확인하는 구성"
+      ],
+      "candidate_rank": 1,
+      "selected_rank": 1,
+      "compared": 1,
+      "skipped_note": "",
+      "source_overlap": 1.0,
+      "source_statuses": {
+        "개시": 4,
+        "일부": 0,
+        "미개시": 0
+      },
+      "source_rows": [
+        {
+          "element": "초기 데이터 설정부",
+          "status": "개시",
+          "quote": "초기 어드레스부터 최종 어드레스까지 증가하면서 각 어드레스 대응하는 메모리 셀로부터 제1값을 읽어내고, 그 메모리 셀에 제2값을 쓰는 제2단계",
+          "note": "첫 주소부터 끝 주소 방향으로 주소를 증가시켜 가며 제1값을 쓰고 다시 제1값을 읽어 제2값으로 바꿔 쓰는 제1단계 및 제2단계 구성이 근거에 동일하게 기재되어 있습니다."
+        },
+        {
+          "element": "포트별 동작 처리부",
+          "status": "개시",
+          "quote": "단일포트 메모리에 대해 최종 어드레스부터 초기 어드레스까지 감소하면서 각 어드레스에 대응하는 메모리 셀로부터 제1값을 읽어내고, 그 메모리 셀에 토글값을 쓰고",
+          "note": "단일포트와 이중포트 메모리를 구분하고 어드레스 방향을 제어하며 읽기, 쓰기 및 토글값을 처리하는 동작이 근거에 상세히 기재되어 있습니다."
+        },
+        {
+          "element": "이중포트 교차 검증부",
+          "status": "개시",
+          "quote": "각 어드레스보다 하나 증가된 어드레스에 대응하는 메모리 셀로부터 제1포트를 통하여 토글 값을 읽고, 상기 제1포트를 통하여 토글 값을 읽는 중에",
+          "note": "이중포트 메모리에서 특정 주소와 하나 증가된 인접 주소에 제1포트 및 제2포트로 동시 접근하여 읽고 쓰는 교차 검증 절차가 근거에 구체적으로 나와 있습니다."
+        },
+        {
+          "element": "메모리 이상 확인부",
+          "status": "개시",
+          "quote": "최종 어드레스부터 초기 어드레스까지 감소하면서 해당 어드레스에 대응하는 메모리 셀로부터 제2값을 읽는 단계",
+          "note": "테스트의 마지막 순서로 최종 어드레스에서 초기 어드레스 방향으로 감소하며 데이터를 읽어 테스트를 완료하는 구성이 근거에 포함되어 있습니다."
+        }
+      ],
+      "best_other_overlap": null,
+      "overlap_rank": 1,
+      "others": [],
+      "seconds": 26.6,
+      "prompt_tokens": 4613,
+      "completion_tokens": 349,
+      "est_cost_usd": null
+    },
+    {
+      "item_id": "1019980003510",
+      "title": "빌트인 셀프 테스트 회로를 구비한 결함구제회로 및 이를 사용한 결함구제방법",
+      "n_elements": 4,
+      "elements": [
+        "BIST 모드에서 메모리의 입출력 데이터를 비교하여 에러 신호와 불량 주소를 생성하는 진단 회로",
+        "진단 회로에서 생성된 불량 주소를 저장하는 리페어 회로",
+        "평상시에 로직에서 입력된 주소와 저장된 불량 주소를 비교하는 비교부",
+        "입력된 주소가 불량 부위를 가리키는 경우 여분의 예비 회로를 동작시키는 신호를 출력하는 제어부"
+      ],
+      "candidate_rank": null,
+      "selected_rank": null,
+      "compared": 2,
+      "skipped_note": "청구항을 받지 못해 대비에서 뺀 특허 3건",
+      "source_overlap": null,
+      "source_statuses": null,
+      "source_rows": [],
+      "best_other_overlap": 0.875,
+      "overlap_rank": null,
+      "others": [
+        {
+          "item_id": "1019990045630",
+          "title": "메모리장치의 리던던시 셀 리페어 회로",
+          "overlap": 0.875
+        },
+        {
+          "item_id": "1020010029028",
+          "title": "불량 메모리 셀 치환을 위한 테스트 회로를 탑재하는반도체 집적 회로 장치",
+          "overlap": 0.625
+        }
+      ],
+      "seconds": 41.7,
+      "prompt_tokens": 4538,
+      "completion_tokens": 512,
+      "est_cost_usd": null
+    },
+    {
+      "item_id": "1019990045630",
+      "title": "메모리장치의 리던던시 셀 리페어 회로",
+      "n_elements": 4,
+      "elements": [
+        "메모리 장치로 들어오는 어드레스를 받아들여 일반 워드라인을 동작시킨다.",
+        "일반 워드라인의 출력에서 불량을 감지하면 해당 주소를 따로 저장해 둔다.",
+        "새로 들어온 주소와 저장된 불량 주소를 서로 비교한다.",
+        "주소가 일치할 경우 기존의 일반 워드라인을 끄고 여분의 예비 워드라인으로 교체한다."
+      ],
+      "candidate_rank": null,
+      "selected_rank": null,
+      "compared": 1,
+      "skipped_note": "청구항을 받지 못해 대비에서 뺀 특허 2건",
+      "source_overlap": null,
+      "source_statuses": null,
+      "source_rows": [],
+      "best_other_overlap": 0.625,
+      "overlap_rank": null,
+      "others": [
+        {
+          "item_id": "1020010029028",
+          "title": "불량 메모리 셀 치환을 위한 테스트 회로를 탑재하는반도체 집적 회로 장치",
+          "overlap": 0.625
+        }
+      ],
+      "seconds": 25.6,
+      "prompt_tokens": 4438,
+      "completion_tokens": 393,
+      "est_cost_usd": null
+    },
+    {
+      "item_id": "1020007014772",
+      "title": "사용자 정의 메모리 내장형 자체 시험 회로의 자동 생성방법",
+      "n_elements": 4,
+      "elements": [
+        "각 메모리를 독립적으로 점검하는 BIST 회로들과 전체 제어기에 필요한 기능 데이터를 설정하는 설정부",
+        "메모리 접근 시점과 주소 생성 시점을 조절하는 두 가지 타이밍 신호를 만들어 모든 시험 회로에 공통으로 공급하는 제어기",
+        "기능 데이터와 타이밍 신호들을 바탕으로 전체 회로 설계를 합성하는 합성부",
+        "회로 블록들의 배치와 연결을 정하여 최종 집적회로를 완성하는 완성부"
+      ],
+      "candidate_rank": 1,
+      "selected_rank": 1,
+      "compared": 1,
+      "skipped_note": "청구항을 받지 못해 대비에서 뺀 특허 2건",
+      "source_overlap": 1.0,
+      "source_statuses": {
+        "개시": 4,
+        "일부": 0,
+        "미개시": 0
+      },
+      "source_rows": [
+        {
+          "element": "기능 데이터 설정부",
+          "status": "개시",
+          "quote": "BIST 회로(40, 60, 80, 90)에 대하여 복수의 BIST 회로의 요구된 기능을 나타내는 데이터를 제공하는 단계",
+          "note": "개별 메모리를 점검하는 BIST 회로 및 BIST 제어기에 요구되는 기능 데이터를 제공(설정)하는 구성이 근거 2에 개시되어 있습니다."
+        },
+        {
+          "element": "타이밍 신호 제어기",
+          "status": "개시",
+          "quote": "제1 타이밍 신호 및 상기 제2 타이밍 신호를 생성하여 이들을 상기 BIST 회로의 전체에 공통적으로 공급하는 단계",
+          "note": "메모리 액세스 시점과 어드레스 생성 시점을 조절하는 두 가지 타이밍 신호를 생성하여 BIST 회로 전체에 공통으로 공급하는 제어기 구성이 근거 2에 개시되어 있습니다."
+        },
+        {
+          "element": "회로 설계 합성부",
+          "status": "개시",
+          "quote": "상기 BIST 회로의 각각을 구현하는 회로 블록과 또한 상기 연산 회로를 구현하는 회로 블록의 집적회로 설계를 합성하는 단계",
+          "note": "요구되는 기능 데이터에 기초하여 BIST 회로 및 제어기를 포함한 전체 회로 설계를 합성하는 구성이 근거 2 및 3에 개시되어 있습니다."
+        },
+        {
+          "element": "집적회로 완성부",
+          "status": "개시",
+          "quote": "상기 집적회로 내의 상기 회로 블록의 배치 및 상호 접속을 결정하는 단계",
+          "note": "합성된 회로 블록들의 배치 및 상호 접속(연결)을 결정하여 최종 집적회로를 생성하는 구성이 근거 2에 개시되어 있습니다."
+        }
+      ],
+      "best_other_overlap": null,
+      "overlap_rank": 1,
+      "others": [],
+      "seconds": 37.2,
+      "prompt_tokens": 4625,
+      "completion_tokens": 400,
+      "est_cost_usd": null
+    },
+    {
+      "item_id": "1020010014580",
+      "title": "반도체 기억 장치 및 그 테스트 방법",
+      "n_elements": 5,
+      "elements": [
+        "가로세로 주소 공간에 일반 메모리 셀과 여분의 리던던시 메모리 셀 배열을 포함하는 메모리 회로",
+        "외부에서 한 번 프로그래밍하면 전기적으로 다시 쓸 수 없고 리던던시 데이터를 저장하는 불휘발성 소자",
+        "장치가 켜질 때 불휘발성 소자에 저장된 리던던시 데이터를 담아두도록 동작하는 레지스터",
+        "레지스터의 데이터와 외부 주소를 비교하여 여분 메모리 셀의 사용 여부를 판단하는 리던던시 판정 회로",
+        "저장된 리던던시 데이터를 다른 데이터로 바꿔 쓸 수 있도록 구성된 리던던시 데이터 재기입 회로"
+      ],
+      "candidate_rank": 1,
+      "selected_rank": 1,
+      "compared": 3,
+      "skipped_note": "청구항을 받지 못해 대비에서 뺀 특허 1건",
+      "source_overlap": 1.0,
+      "source_statuses": {
+        "개시": 5,
+        "일부": 0,
+        "미개시": 0
+      },
+      "source_rows": [
+        {
+          "element": "메모리 회로",
+          "status": "개시",
+          "quote": "X, Y의 2 차원 어드레스 공간을 갖고, 복수의 통상 메모리 셀의 어레이 및 복수의 X, Y 리던던시 메모리 셀의 어레이를 포함하는 메모리 회로",
+          "note": "가로세로 2차원 주소 공간 및 일반 셀과 여분의 리던던시 셀 어레이를 갖는 메모리 회로 구성이 동일하게 기술되어 있다."
+        },
+        {
+          "element": "불휘발성 소자",
+          "status": "개시",
+          "quote": "기억해야 할 데이터를 외부에서 프로그래밍이 가능하고 전기적인 재프로그래밍이 불가능한 불휘발성 소자를 포함하는, 리던던시 데이터 기억용의 기억 소자",
+          "note": "외부 프로그래밍이 가능하고 전기적 재프로그래밍이 불가능한 불휘발성 리던던시 기억 소자가 개시되어 있다."
+        },
+        {
+          "element": "레지스터",
+          "status": "개시",
+          "quote": "상기 반도체 기억 장치가 활성화될 때, 상기 기억 소자의 리던던시 데이터를 보유하는 레지스터",
+          "note": "장치 활성화 시 불휘발성 기억 소자의 리던던시 데이터를 보유하도록 동작하는 레지스터가 개시되어 있다."
+        },
+        {
+          "element": "리던던시 판정 회로",
+          "status": "개시",
+          "quote": "상기 레지스터에 보유된 데이터와 외부로부터 입력되는 어드레스를 비교하여 상기 리던던시 메모리 셀의 사용 여부를 결정하는 리던던시 판정 회로",
+          "note": "레지스터 데이터와 외부 어드레스를 비교하여 리던던시 셀 사용 여부를 판정하는 회로가 동일하게 명시되어 있다."
+        },
+        {
+          "element": "리던던시 재기입 회로",
+          "status": "개시",
+          "quote": "상기 레지스터에 보유된 리던던시 데이터를 다른 리던던시 데이터로 재기입하는 리던던시 데이터 재기입 회로",
+          "note": "레지스터의 리던던시 데이터를 다른 데이터로 바꿔 쓰는 재기입 회로 구성이 명확히 개시되어 있다."
+        }
+      ],
+      "best_other_overlap": 0.4,
+      "overlap_rank": 1,
+      "others": [
+        {
+          "item_id": "1019990045630",
+          "title": "메모리장치의 리던던시 셀 리페어 회로",
+          "overlap": 0.4
+        },
+        {
+          "item_id": "1020010029028",
+          "title": "불량 메모리 셀 치환을 위한 테스트 회로를 탑재하는반도체 집적 회로 장치",
+          "overlap": 0.3
+        }
+      ],
+      "seconds": 65.3,
+      "prompt_tokens": 4687,
+      "completion_tokens": 528,
+      "est_cost_usd": null
+    }
+  ],
+  "failed": [
+    {
+      "item_id": "1020010029028",
+      "title": "불량 메모리 셀 치환을 위한 테스트 회로를 탑재하는반도체 집적 회로 장치",
+      "error": "Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+    },
+    {
+      "item_id": "1020010031992",
+      "title": "반도체 집적회로 시험용 테스트 패턴 생성방법 및 그 장치",
+      "error": "Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+    },
+    {
+      "item_id": "1020010068702",
+      "title": "내장된 자체테스트 기법을 위한 결정패턴 생성기",
+      "error": "Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+    },
+    {
+      "item_id": "1020017002338",
+      "title": "랜덤 엑세스 메모리용 내장 셀프 테스트 구조 및 테스팅알고리즘",
+      "error": "Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+    },
+    {
+      "item_id": "1020040070179",
+      "title": "빌트-인 셀프 테스트 기능을 갖는 메모리 모듈 테스트방법 및 메모리 모듈 시스템 테스트 방법",
+      "error": "Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+    },
+    {
+      "item_id": "1020047017813",
+      "title": "다목적 메모리를 지닌 테스터 시스템",
+      "error": "Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+    },
+    {
+      "item_id": "1020057024389",
+      "title": "시험 장치, 및 프로그램",
+      "error": "Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+    },
+    {
+      "item_id": "1020060109295",
+      "title": "프로브카드 신호채널의 검사장치 및 방법",
+      "error": "Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+    },
+    {
+      "item_id": "1020070036079",
+      "title": "테스트 데이터를 선택적으로 로깅하는 시스템 및 방법",
+      "error": "Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+    },
+    {
+      "item_id": "1020070078815",
+      "title": "심볼릭 시뮬레이션을 이용한 스캔 체인 고장 진단 방법 및장치",
+      "error": "Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+    },
+    {
+      "item_id": "1020080079602",
+      "title": "프로그래머블 메모리 자체 테스트 회로 생성기 및 그 생성 방법",
+      "error": "Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+    },
+    {
+      "item_id": "1020090131793",
+      "title": "반도체 메모리 장치의 테스트 회로",
+      "error": "Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+    },
+    {
+      "item_id": "1020110017647",
+      "title": "집적회로 및 메모리장치의 테스트 방법",
+      "error": "Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+    },
+    {
+      "item_id": "1020137008914",
+      "title": "고장 검출 시스템, 취출 장치, 고장 검출 방법, 프로그램 및 기록 매체",
+      "error": "Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+    },
+    {
+      "item_id": "1020160007009",
+      "title": "전자 기기의 고장 예측 장치 및 이를 이용한 고장 예측 방법",
+      "error": "Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+    },
+    {
+      "item_id": "1020160012440",
+      "title": "스캔 셀 파티션에 기반을 둔 X-FILLING 및 저전력 스캔 셀 재배열 장치 및 방법",
+      "error": "Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+    },
+    {
+      "item_id": "1020180109993",
+      "title": "메모리 테스트를 위한 명령어 기반의 보스트 장치",
+      "error": "Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+    },
+    {
+      "item_id": "1020200024801",
+      "title": "스캔 체인 내 다중 고장을 진단하기 위한 장치 및 방법",
+      "error": "Connection error."
+    },
+    {
+      "item_id": "1020210178936",
+      "title": "스캔 셀의 고장 검출 방법 및 스캔 셀의 고장 검출 장치",
+      "error": "Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+    },
+    {
+      "item_id": "1020210190872",
+      "title": "스캔 체인의 다중 고장 진단장치 및 방법",
+      "error": "Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+    },
+    {
+      "item_id": "1020217029365",
+      "title": "배터리 셀 모니터링용 배터리 모듈 가스 센서",
+      "error": "Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+    },
+    {
+      "item_id": "1020217038184",
+      "title": "3차원 메모리에 대한 셀 전류 측정",
+      "error": "Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+    },
+    {
+      "item_id": "1020220053264",
+      "title": "반도체 메모리 장치의 단위 인버터 전파 지연 측정 회로",
+      "error": "Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+    },
+    {
+      "item_id": "1020220189559",
+      "title": "BOST 장치 및 이의 출력 데이터 저감 방법",
+      "error": "Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+    },
+    {
+      "item_id": "1020227005056",
+      "title": "인공 신경망에 의해 예측된 고장 모드들에 기초한 레티클 향상 기법 레시피들의 적용",
+      "error": "Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+    },
+    {
+      "item_id": "1020230005129",
+      "title": "기계 학습에 기반한 스캔 체인 진단방법 및 진단장치",
+      "error": "Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+    },
+    {
+      "item_id": "1020230119781",
+      "title": "배터리의 열폭주 감지 시스템",
+      "error": "Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+    },
+    {
+      "item_id": "1020230136220",
+      "title": "지터 측정 회로 및 지터 측정 방법",
+      "error": "Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+    },
+    {
+      "item_id": "1020240009170",
+      "title": "쉬프트 주파수 스케일링을 사용하는 스캔 테스트 데이터 생성 방법 및 장치",
+      "error": "Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+    },
+    {
+      "item_id": "1020240018339",
+      "title": "딥러닝 기반의 고장 예측 모델을 이용한 중전기기 고장 진단 장치 및 그 방법",
+      "error": "Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+    },
+    {
+      "item_id": "1020240036948",
+      "title": "집적회로에 대한 테스트 결과 데이터를 생성하는 방법, 장치 및 시스템",
+      "error": "Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+    },
+    {
+      "item_id": "1020247008715",
+      "title": "공동 배치되는 모델링된 고장을 갖는 결함을 가중화하기 위한 시스템 및 방법",
+      "error": "Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+    },
+    {
+      "item_id": "1020250067485",
+      "title": "전압 및 온도 변화 감지에 기반한 전기차 배터리의 열폭주 현상 사전 감지 시스템",
+      "error": "Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+    },
+    {
+      "item_id": "1020250109356",
+      "title": "리튬이온 배터리 팩용 광학식 가스 탐지 시스템-제3분할 (PT + Pull-Up 구성)",
+      "error": "Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+    }
+  ]
+}
