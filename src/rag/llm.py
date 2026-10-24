@@ -5,13 +5,20 @@ import re
 from langchain_core.language_models import BaseChatModel
 from langchain_openai import ChatOpenAI
 
-from src.config import CHAT_MODEL, LLM_MAX_RETRIES
+from langchain_core.rate_limiters import InMemoryRateLimiter
+
+from src.config import CHAT_MODEL, LLM_MAX_RETRIES, LLM_RPM
 from src.env import openai_kwargs
+
+# 프로세스 안의 모든 채팅 모델이 하나의 한도를 나눠 쓴다 (스레드 간 공유). 분당 LLM_RPM회를 넘지 않게 호출 전에 기다린다.
+_RATE_LIMITER = InMemoryRateLimiter(requests_per_second=LLM_RPM / 60, check_every_n_seconds=0.2,
+                                    max_bucket_size=1) if LLM_RPM > 0 else None
 
 
 def get_chat(temperature: float = 0, model: str = CHAT_MODEL) -> BaseChatModel:
     # max_retries: 429(요청 한도)·일시 오류를 지수 백오프로 다시 시도한다. 무료 등급(Gemini)은 한도가 작아 넉넉히 둔다
-    return ChatOpenAI(model=model, temperature=temperature, max_retries=LLM_MAX_RETRIES, **openai_kwargs())
+    return ChatOpenAI(model=model, temperature=temperature, max_retries=LLM_MAX_RETRIES,
+                      rate_limiter=_RATE_LIMITER, **openai_kwargs())
 
 
 def parse_json_array(text: str) -> list:
