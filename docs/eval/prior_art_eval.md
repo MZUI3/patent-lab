@@ -5,3 +5,4 @@
 | 날짜 | 라벨 | 사례 | R@20 | R@5 | MRR@5 | 개시율 | 개시+일부 | 겹침 1위 | 시간/건 | 토큰/건 | 비용/건 | 모델 | 후보/대비 | 상세 |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | 2026-10-24 | baseline-gemini | 6 | 67% | 67% | 0.583 | 100% | 100% | 100% | 41초 | 4,969 | - | gemini-3.5-flash | 20/5 | [baseline-gemini_2026-10-24.md](prior_art_eval/baseline-gemini_2026-10-24.md) |
+| 2026-10-24 | baseline-flash-lite | 40 | 88% | 85% | 0.819 | 96% | 97% | 100% | 23초 | 4,807 | - | gemini-3.5-flash-lite | 20/5 | [baseline-flash-lite_2026-10-24.md](prior_art_eval/baseline-flash-lite_2026-10-24.md) |
