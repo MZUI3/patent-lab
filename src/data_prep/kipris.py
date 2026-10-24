@@ -67,7 +67,7 @@ def _clean(text: str | None) -> str:
 
 
 def patent_document(app_no: str) -> SourceDoc:
-    """선택한 특허 자체를 다룬 문서. 서지 상세를 한 번만 받아 캐시한다 (NF2002)."""
+    """선택한 특허 자체를 다룬 문서. 서지 상세를 한 번만 받아 캐시한다."""
     cache = DETAIL_CACHE_DIR / f"{app_no}.xml"
     if cache.exists():
         xml = cache.read_bytes()

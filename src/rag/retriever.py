@@ -1,4 +1,4 @@
-# src/rag/retriever.py — 근거 검색 및 병합 (F2006)
+# src/rag/retriever.py — 근거 검색 및 병합
 # RAG 1(patent_meta)에서 선택한 특허 청크를 검색 없이 항상 넣고,
 # RAG 2(patent_docs)에서 그 특허로 범위를 좁혀 질문과 비슷한 청크를 찾은 뒤 합친다.
 import re
@@ -33,7 +33,7 @@ def _norm(text: str) -> str:
 def search_docs(item: Item, question: str, store: Chroma, top_k: int, search_type: str):
     """선택한 특허의 외부 문서 청크만 검색한다. item_id 필터가 빠지면 다른 특허의 문서가 섞인다."""
     where = {"item_id": item.id}
-    if search_type == "mmr":   # 넉넉히 가져와 내용이 겹치지 않게 고른다 (F2014)
+    if search_type == "mmr":   # 넉넉히 가져와 내용이 겹치지 않게 고른다
         return store.max_marginal_relevance_search(question, k=top_k, fetch_k=max(MMR_FETCH_K, top_k),
                                                    lambda_mult=MMR_LAMBDA, filter=where)
     return store.similarity_search(question, k=top_k, filter=where)

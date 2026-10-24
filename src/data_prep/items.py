@@ -1,5 +1,5 @@
 # src/data_prep/items.py
-# 항목 메타데이터 적재 (F2001): 특허 1건을 하나의 색인 텍스트와 메타데이터로 만든다.
+# 항목 메타데이터 적재: 특허 1건을 하나의 색인 텍스트와 메타데이터로 만든다.
 # 실행: python -m src.data_prep.items (프로젝트 루트에서) — 건수와 색인 텍스트 1건을 출력한다.
 import json
 import re
@@ -9,12 +9,12 @@ from pathlib import Path
 
 from src.config import PATENTS_JSON, PATENTS_ONDEMAND_JSON
 
-SOURCE_TYPE = "item_meta"   # 근거 출처 유형 구분용 (F2007)
+SOURCE_TYPE = "item_meta"   # 근거 출처 유형 구분용
 
 
 @dataclass
 class Item:
-    id: str          # 출원번호 — 색인 청크 식별자로 고정해 재색인 시 덮어쓰기만 일어나게 한다 (F2002)
+    id: str          # 출원번호 — 색인 청크 식별자로 고정해 재색인 시 덮어쓰기만 일어나게 한다
     text: str        # 임베딩할 색인 텍스트
     metadata: dict   # Chroma에 함께 저장할 값 (str/int만)
 

@@ -17,14 +17,14 @@ OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
 
 
 def fetch_page(ipc: str, page: int) -> bytes:
-    """페이지 응답을 캐시에서 읽고, 없을 때만 API를 호출한다 (NF2002)."""
+    """페이지 응답을 캐시에서 읽고, 없을 때만 API를 호출한다."""
     ipc_tag = ipc.replace(" ", "").replace("/", "-")
     cache = RAW_DIR / f"ipc_{ipc_tag}_rows{ROWS}_p{page:03d}.xml"
     if cache.exists():
         return cache.read_bytes()
 
     params = {"ipcNumber": ipc, "patent": "true", "utility": "false", "numOfRows": ROWS, "pageNo": page}
-    content = kipris.call("getAdvancedSearch", params, detail=f"ipc={ipc} page={page}")   # 재시도·간격·기록 (NF2006)
+    content = kipris.call("getAdvancedSearch", params, detail=f"ipc={ipc} page={page}")   # 재시도·간격·기록
     if kipris.parse_search(content)[1]:   # 빈 결과는 캐시하지 않는다
         cache.write_bytes(content)
     return content

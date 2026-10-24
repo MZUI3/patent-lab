@@ -1,5 +1,5 @@
 # src/data_prep/collect_docs.py
-# 외부 문서 수집 (F2003, F2004): 프롬프트1로 검색어를 뽑고, 위키백과 후보를 프롬프트2로 골라 본문을 받는다.
+# 외부 문서 수집: 프롬프트1로 검색어를 뽑고, 위키백과 후보를 프롬프트2로 골라 본문을 받는다.
 # 선택한 특허 자체의 공보(요약·청구항)는 선별·길이 규칙과 상관없이 항상 수집한다.
 import json
 from dataclasses import dataclass, field, replace
@@ -18,7 +18,7 @@ from src.rag.prompts import CANDIDATE_SELECTION, QUERY_EXTRACTION
 class CollectResult:
     terms: list[str]                                        # 프롬프트1이 뽑은 검색어
     new_terms: list[str]                                    # 이번에 처음 검색한 검색어
-    skipped_terms: list[str]                                # 이미 수집해서 건너뛴 검색어 (NF2002)
+    skipped_terms: list[str]                                # 이미 수집해서 건너뛴 검색어
     question: str = ""                                      # 검색어를 뽑은 질문 (같은 질문이면 검색어를 재사용)
     selected: list[str] = field(default_factory=list)       # 프롬프트2가 고른 후보 제목
     rejected: list[str] = field(default_factory=list)       # 프롬프트2가 버린 후보 제목
@@ -48,7 +48,7 @@ def mark_collected(item_id: str, result: CollectResult) -> None:
 # ── 프롬프트 호출 ─────────────────────────────────────────────────────────────
 
 def extract_terms(item: Item, question: str, llm: BaseChatModel) -> list[str]:
-    """프롬프트1 (F2003)."""
+    """프롬프트1."""
     raw = (QUERY_EXTRACTION | llm).invoke(
         {"item_text": item.text, "question": question, "max_terms": MAX_TERMS}).content
     terms = []
@@ -59,7 +59,7 @@ def extract_terms(item: Item, question: str, llm: BaseChatModel) -> list[str]:
 
 
 def select_candidates(item: Item, question: str, candidates: list[dict], llm: BaseChatModel) -> list[int]:
-    """프롬프트2 (F2004). 고른 후보의 0부터 시작하는 위치를 돌려준다."""
+    """프롬프트2. 고른 후보의 0부터 시작하는 위치를 돌려준다."""
     listing = "\n".join(f"{i}. {c['title']} — {c['snippet']}" for i, c in enumerate(candidates, 1))
     raw = (CANDIDATE_SELECTION | llm).invoke({
         "item_title": item.metadata["title"], "question": question,
@@ -93,7 +93,7 @@ def collect(item: Item, question: str, llm: BaseChatModel | None = None) -> Coll
         docs.append(kipris.patent_document(item.id))
 
     # 같은 질문은 지난번 검색어를 그대로 쓴다. 프롬프트1은 온도 0이어도 가끔 다른 검색어를 내서,
-    # 그대로 두면 같은 질문에 수집이 다시 일어난다 (NF2002, 4.2 "같은 질문을 다시 물었을 때").
+    # 그대로 두면 같은 질문에 수집이 다시 일어난다 (같은 질문에 수집이 반복되면 안 된다).
     question_key = " ".join(question.split())
     terms = entry.get("questions", {}).get(question_key) or extract_terms(item, question, llm)
     new_terms = [t for t in terms if t not in entry["terms"]]

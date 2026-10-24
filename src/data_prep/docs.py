@@ -1,7 +1,7 @@
 # src/data_prep/docs.py — 외부 문서 1건의 공통 형태와 출처 유형 이름
 from dataclasses import dataclass
 
-# 출처 유형 → 화면 표시 이름 (F2007, F2016)
+# 출처 유형 → 화면 표시 이름
 SOURCE_LABELS = {
     "item_meta": "특허 메타데이터",
     "patent_claims": "KIPRIS 특허공보(청구항)",

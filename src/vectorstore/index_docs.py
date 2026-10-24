@@ -1,5 +1,5 @@
 # src/vectorstore/index_docs.py
-# 외부 문서 색인 (F2005, RAG 2): 수집한 문서를 청킹해 patent_docs 컬렉션에 넣는다.
+# 외부 문서 색인 (RAG 2): 수집한 문서를 청킹해 patent_docs 컬렉션에 넣는다.
 # 청크 ID = "항목ID:문서ID:순번" — 여러 특허가 같은 위키 문서를 수집해도 서로 덮어쓰지 않는다.
 #
 # 실행 (프로젝트 루트에서)
@@ -60,7 +60,7 @@ def index_documents(item: Item, docs: list[SourceDoc], store: Chroma) -> int:
 
 def ensure_documents(item: Item, question: str, llm: BaseChatModel | None = None,
                      store: Chroma | None = None) -> tuple[CollectResult, int]:
-    """질문에 필요한 문서를 수집·색인한다. 이미 수집한 검색어·문서는 건너뛴다 (NF2002)."""
+    """질문에 필요한 문서를 수집·색인한다. 이미 수집한 검색어·문서는 건너뛴다."""
     result = collect(item, question, llm)
     added = index_documents(item, result.docs, store or get_store(DOC_COLLECTION)) if result.docs else 0
     mark_collected(item.id, result)
@@ -108,7 +108,7 @@ def print_result(result: CollectResult, added: int) -> None:
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser(description="외부 문서 수집·색인 (F2003~F2005)")
+    ap = argparse.ArgumentParser(description="외부 문서 수집·색인")
     ap.add_argument("--item", help="출원번호")
     ap.add_argument("--question", help="질문")
     ap.add_argument("--rebuild", action="store_true", help="캐시로 전체 재색인")

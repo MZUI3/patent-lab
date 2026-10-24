@@ -1,4 +1,4 @@
-# src/rag/citations.py — 답변 본문의 근거 번호를 찾아 실제로 인용된 근거만 남긴다 (F2008)
+# src/rag/citations.py — 답변 본문의 근거 번호를 찾아 실제로 인용된 근거만 남긴다
 import re
 
 from src.rag.retriever import Evidence
