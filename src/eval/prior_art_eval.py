@@ -192,9 +192,14 @@ def main() -> None:
     cfg = settings()
     print(f"[{args.label}] 사례 {len(cases)}건, 설정 " + ", ".join(f"{k}={v}" for k, v in cfg.items()))
 
-    rows = []
+    rows, failed = [], []
     for i, case in enumerate(cases, 1):
-        r = run_case(case)
+        try:
+            r = run_case(case)
+        except Exception as e:   # 무료 등급 일일 한도(429) 등 — 한 사례가 실패해도 나머지 결과는 남긴다
+            failed.append({"item_id": case["item_id"], "title": case["title"], "error": str(e)[:300]})
+            print(f"{i:>2}. {case['item_id']} 실패: {str(e)[:120]}")
+            continue
         rows.append(r)
         s = r["source_statuses"]
         head = f"{i:>2}. {case['item_id']} 후보 {r['candidate_rank'] or '-':>2} / 대비 {r['selected_rank'] or '-'}"
@@ -203,12 +208,17 @@ def main() -> None:
         else:
             print(f"{head} / 정답 대비 안 됨" + (f" ({r['skipped_note']})" if r["skipped_note"] else ""))
 
+    if not rows:
+        raise SystemExit(f"모든 사례가 실패했습니다 ({len(failed)}건). 첫 오류: {failed[0]['error'] if failed else ''}")
     agg = aggregate(rows)
+    agg["failed"] = len(failed)
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     stem = f"{args.label}_{date.today().isoformat()}"
     (OUT_DIR / f"{stem}.json").write_text(
-        json.dumps({"label": args.label, "settings": cfg, "summary": agg, "cases": rows}, ensure_ascii=False, indent=2),
-        encoding="utf-8")
+        json.dumps({"label": args.label, "settings": cfg, "summary": agg, "cases": rows, "failed": failed},
+                   ensure_ascii=False, indent=2), encoding="utf-8")
+    if failed:
+        print(f"실패 {len(failed)}건 (결과에서 제외): " + ", ".join(f["item_id"] for f in failed))
     write_detail(OUT_DIR / f"{stem}.md", args.label, agg, rows, cfg)
     append_summary(args.label, agg, cfg, f"{stem}.md")
 
