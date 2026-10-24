@@ -3,9 +3,8 @@ import json
 import re
 
 from langchain_core.language_models import BaseChatModel
-from langchain_openai import ChatOpenAI
-
 from langchain_core.rate_limiters import InMemoryRateLimiter
+from langchain_openai import ChatOpenAI
 
 from src.config import CHAT_MODEL, LLM_MAX_RETRIES, LLM_RPM
 from src.env import openai_kwargs

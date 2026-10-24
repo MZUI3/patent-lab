@@ -57,7 +57,7 @@ def main() -> None:
             store.delete_collection()
             store = get_store(META_COLLECTION)
     except (FileNotFoundError, MissingAPIKeyError) as e:
-        raise SystemExit(f"[중단] {e}")
+        raise SystemExit(f"[중단] {e}") from e
 
     print(f"'{META_COLLECTION}' 컬렉션에 항목 {len(items)}건 색인 시작")
     s = index_items(items, store)

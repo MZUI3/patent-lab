@@ -6,8 +6,14 @@ from collections import Counter
 
 from src.config import (
     KIPRIS_FIELDS,
+)
+from src.config import (
     KIPRIS_ROWS as ROWS,
+)
+from src.config import (
     PATENTS_JSON as OUT_PATH,
+)
+from src.config import (
     SEARCH_CACHE_DIR as RAW_DIR,
 )
 from src.data_prep import kipris

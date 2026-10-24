@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      # 단위 테스트는 LLM·네트워크·로컬 임베딩 모델 없이 돌아가므로 torch·sentence-transformers(수 GB)는 설치하지 않는다
+      - name: Install
+        run: |
+          grep -vE '^(torch|sentence-transformers)' requirements.txt > requirements-ci.txt
+          pip install -r requirements-ci.txt pytest ruff
+      - name: Lint
+        run: ruff check src tests
+      - name: Test
+        run: pytest

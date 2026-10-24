@@ -63,7 +63,7 @@
 
 ## 실행
 ### 준비
-- Python 3.10 이상 (개발·검증은 3.14, Windows 11)
+- Python 3.12 이상 (개발·검증은 3.14, Windows 11)
 - 키 3개: LLM 키([Gemini](https://aistudio.google.com/apikey) 무료 등급 / OpenAI 중 하나), [KIPRIS Plus](https://plus.kipris.or.kr) 서비스 키, 위키백과 User-Agent용 연락처
 - 임베딩은 기본적으로 로컬 모델(bge-m3)을 CPU에서 돌립니다. 처음 실행할 때 모델(약 2.2GB)을 내려받습니다. OpenAI 임베딩을 쓰려면 `.env`에 `EMBEDDING_PROVIDER=openai`.
 

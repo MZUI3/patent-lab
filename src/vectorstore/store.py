@@ -38,7 +38,7 @@ def chroma_path() -> str:
 def _local_model(name: str):
     """sentence-transformers 모델은 로드에 수 초, 메모리 수 GB가 들어 프로세스에서 한 번만 만든다.
     처음 쓸 때 Hugging Face에서 모델을 내려받는다 (bge-m3 약 2.2GB)."""
-    from sentence_transformers import SentenceTransformer   # 무거운 의존성이라 로컬 임베딩을 쓸 때만 올린다
+    from sentence_transformers import SentenceTransformer  # 무거운 의존성이라 로컬 임베딩을 쓸 때만 올린다
     model = SentenceTransformer(name, device="cpu")
     model.max_seq_length = LOCAL_EMBEDDING_MAX_TOKENS
     return model

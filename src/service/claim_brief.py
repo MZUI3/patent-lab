@@ -1,8 +1,8 @@
 # src/service/claim_brief.py — 도메인 특화 기능: 청구항 해설
 # 특허 청구항은 법률 문장이라 읽기 어렵다. 청구항(KIPRIS)과 개념 문서(위키백과)를 근거로
 # 한 줄 요약·해결 과제·핵심 구성·용어 풀이를 만들고, 문장마다 근거 번호를 단다.
+from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Callable
 
 from langchain_core.language_models import BaseChatModel
 

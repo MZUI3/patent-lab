@@ -30,7 +30,8 @@ from src.rag.prompts import NOT_FOUND
 from src.rag.retriever import Evidence, retrieve_evidence
 from src.service.claim_brief import claim_brief
 from src.service.explore import explore
-from src.vectorstore import index_docs, store as store_mod
+from src.vectorstore import index_docs
+from src.vectorstore import store as store_mod
 from src.vectorstore.index_docs import ensure_documents
 from src.vectorstore.index_meta import index_items
 from src.vectorstore.store import count_chunks, get_store
@@ -114,7 +115,7 @@ def _():
     p = next(p for p in load_patents() if p["RegistrationNumber"] and p["Abstract"])
     text = build_item_text(p)
     labels = ["발명의 명칭", "출원인", "출원번호", "출원일", "IPC 분류", "등록 상태", "요약"]
-    missing = [l for l in labels if f"{l}: " not in text]
+    missing = [line for line in labels if f"{line}: " not in text]
     first = text.split("\n요약: ")[0].replace("\n", " / ")
     return not missing, f"속성 {len(labels) - len(missing)}/{len(labels)} — {first} / 요약: …" + \
         (f" (누락 {missing})" if missing else "")
@@ -123,6 +124,7 @@ def _():
 @check("index-vs-bruteforce", "색인 검색 결과가 전수 계산(brute force)과 일치한다 (인덱스 손상 점검)")
 def _():
     import numpy as np
+
     from src.vectorstore.store import get_embeddings
     s = get_store(META_COLLECTION)
     query = "스캔 체인 고장 진단 기계 학습"
@@ -139,6 +141,7 @@ def _():
 @check("snapshot-restore", "저장소의 색인 스냅샷만으로 다른 PC에서 같은 색인을 만들 수 있다")
 def _():
     import tempfile
+
     from src.vectorstore import snapshot
     from src.vectorstore.store import get_embeddings
     if not snapshot.exists():
@@ -332,8 +335,8 @@ def _():
 @check("brief-evidence", "도메인 특화 기능(청구항 해설) 결과에도 근거가 함께 제시된다")
 def _():
     b = claim_brief(ITEMS[JITTER])
-    lines = [l for l in b.text.splitlines() if l.strip() and not l.startswith("####")]
-    with_cite = sum("[근거" in l for l in lines)
+    lines = [line for line in b.text.splitlines() if line.strip() and not line.startswith("####")]
+    with_cite = sum("[근거" in line for line in lines)
     return with_cite == len(lines) and bool(b.cited), \
         f"해설 {len(lines)}줄 중 근거 번호 {with_cite}줄, 표시 근거 {[f'{e.n}:{e.label}' for e in b.cited]}"
 
@@ -481,11 +484,11 @@ def main() -> None:
              "| 점검 | 확인 내용 | 결과 | 근거 (실행 결과) |", "|---|---|---|---|"]
     new = {c: f"| {c} | {d} | {s} | {e.replace('|', '/')} |" for c, d, s, e in rows}
     if only and OUT.exists():   # 일부만 다시 실행했으면 기존 표의 해당 행만 바꾼다
-        old = [l for l in OUT.read_text(encoding="utf-8").splitlines() if l.startswith("| ") and not l.startswith("| 점검")]
-        rows_by_code = {l.split(" | ")[0][2:]: l for l in old} | new
+        old = [line for line in OUT.read_text(encoding="utf-8").splitlines() if line.startswith("| ") and not line.startswith("| 점검")]
+        rows_by_code = {line.split(" | ")[0][2:]: line for line in old} | new
         order = [c for c, _, _ in CHECKS]
-        lines += sorted(rows_by_code.values(), key=lambda l: order.index(l.split(" | ")[0][2:])
-                        if l.split(" | ")[0][2:] in order else len(order))
+        lines += sorted(rows_by_code.values(), key=lambda line: order.index(line.split(" | ")[0][2:])
+                        if line.split(" | ")[0][2:] in order else len(order))
     else:
         lines += list(new.values())
     OUT.parent.mkdir(parents=True, exist_ok=True)
