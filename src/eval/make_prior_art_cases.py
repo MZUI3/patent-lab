@@ -57,6 +57,12 @@ def longest_common_run(a: str, b: str) -> int:
     return m.size
 
 
+def save(cases: list[dict]) -> None:
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+    OUT.write_text(json.dumps({"description": "첫 청구항을 아이디어 문장으로 바꿔 쓴 자동 평가 사례. 정답 = item_id 자신.",
+                               "cases": cases}, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
 def main() -> None:
     sys.stdout.reconfigure(encoding="utf-8")
     ap = argparse.ArgumentParser(description="선행기술 조사 자동 평가셋 생성")
@@ -96,10 +102,9 @@ def main() -> None:
             "generated_at": date.today().isoformat(),
         })
         print(f"{app_no} 공통 구절 {run:>2}자 | {idea[:70]}…")
+        save(cases)   # 요청 한도 등으로 중간에 멈춰도 만든 사례는 남기고, 다시 실행하면 이어서 만든다
 
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps({"description": "청구항 1을 아이디어 문장으로 바꿔 쓴 자동 평가 사례. 정답 = item_id 자신.",
-                               "cases": cases}, ensure_ascii=False, indent=2), encoding="utf-8")
+    save(cases)
     runs = [c["max_common_run"] for c in cases]
     print(f"\n사례 {len(cases)}건 저장 → {OUT}")
     if runs:

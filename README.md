@@ -76,7 +76,7 @@ python -m src.vectorstore.index_meta --reset      # 1) 메타데이터 컬렉션
 python -m src.vectorstore.index_docs --rebuild    # 2) 문서 컬렉션을 캐시로 다시 청킹·임베딩 (외부 호출 없음)
 python -m src.vectorstore.snapshot export         # 3) 새 스냅샷 저장 (manifest에 모델 기록) → 커밋
 ```
-무료 등급은 분당·일당 요청 한도가 작아 `LLM_MAX_RETRIES`(재시도)와 `COMPARE_WORKERS`(선행기술 조사의 특허별 대비 병렬 수)를 `.env`에서 조정한다. Gemini 기본값은 재시도 6회, 대비 순차 호출이다. 전환 전후의 조사 품질 차이는 [선행기술 조사 자동 평가](#선행기술-조사-자동-평가)로 잰다.
+무료 등급은 분당·일당 요청 한도가 작아 `LLM_MAX_RETRIES`(재시도)와 `COMPARE_WORKERS`(선행기술 조사의 특허별 대비 병렬 수)를 `.env`에서 조정한다. Gemini 기본값은 분당 10회(`LLM_RPM`), 재시도 10회, 대비 순차 호출이다. 전환 전후의 조사 품질 차이는 [선행기술 조사 자동 평가](#선행기술-조사-자동-평가)로 잰다.
 
 ### 데이터를 처음부터 다시 만들 때
 프로젝트 루트에서 모듈로 실행합니다.

@@ -100,6 +100,8 @@ EMBEDDING_MODEL = _setting("EMBEDDING_MODEL",
                            "BAAI/bge-m3" if EMBEDDING_PROVIDER == "local" else "text-embedding-3-small")
 LOCAL_EMBEDDING_MAX_TOKENS = 1024    # 로컬 모델 입력 길이 상한 — 색인 텍스트(≤1,200자)·청크(1,000자)가 들어가는 크기
 
-# 무료 등급은 분당·일당 요청 수 제한이 있어 429가 흔하다 → 재시도를 늘리고 병렬 호출을 줄인다
-LLM_MAX_RETRIES = int(_setting("LLM_MAX_RETRIES", "6" if LLM_PROVIDER == "gemini" else "2"))
+# 무료 등급은 분당·일당 요청 수 제한이 있어 429가 흔하다 → 호출 간격을 두고(LLM_RPM), 재시도를 늘리고, 병렬 호출을 줄인다
+# Gemini 무료 등급은 모델별 분당 10~15회 (2026-10). 429의 "40초 후 재시도"는 SDK 백오프(최대 8초)로는 못 기다리므로 미리 간격을 둔다
+LLM_RPM = int(_setting("LLM_RPM", "10" if LLM_PROVIDER == "gemini" else "0"))   # 분당 요청 상한, 0이면 제한 없음
+LLM_MAX_RETRIES = int(_setting("LLM_MAX_RETRIES", "10" if LLM_PROVIDER == "gemini" else "2"))
 COMPARE_WORKERS = int(_setting("COMPARE_WORKERS", "1" if LLM_PROVIDER == "gemini" else str(PRIOR_ART_MAX)))
