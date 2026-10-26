@@ -8,6 +8,6 @@
 | [002](002-quote-verification.md) | 판정에 원문 구절 강제 | "개시" 판정은 LLM이 인용한 구절이 청구항 원문에 있을 때만 인정한다 |
 | [003](003-mmr-for-qa-evidence.md) | 질의응답 근거는 MMR | 근거 다양성을 위해 MMR을 기본값으로. 선행기술 조사 후보 생성에는 재검토 중 |
 | [004](004-index-snapshot.md) | 색인 스냅샷 공유 | Chroma 저장소 대신 float16 임베딩 스냅샷을 저장소에 두고, 임베딩 모델을 manifest에 기록한다 |
-| [005](005-free-stack.md) | 무료 스택 전환 | 교육용 키 만료 뒤 Gemini 무료 등급 + 로컬 bge-m3로 운영 비용 0원 |
+| [005](005-free-stack.md) | LLM 제공자 분리 + 로컬 임베딩 | LLM은 OpenAI 호환 API 하나로 호출해 `.env`의 키로 제공자를 고르고(기본 Gemini 무료 등급), 임베딩은 로컬 bge-m3로 만들어 운영 비용 0원으로 유지한다 |
 | [006](006-self-retrieval-eval.md) | 자기 청구항 기반 자동 평가 | 라벨 없이 청구항 1을 아이디어로 바꿔 Recall과 판정 정확도를 잰다 |
 | [007](007-kipris-on-demand.md) | 사전 수집 + 조사 시 검색 수집 | 월 호출 한도 안에서 전 분야 조사가 되도록 캐시·기록·한도 설계 |
