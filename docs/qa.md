@@ -5,7 +5,7 @@
   - **자동**: `python -m src.eval.verify` — 실제 색인·파이프라인·LLM으로 실행하고, 화면 동작은 Streamlit AppTest로 확인. 결과 원문은 [eval/verification_run.md](eval/verification_run.md). 점검 이름(`index-count`, `collect-no-repeat` …)으로 일부만 다시 돌릴 수 있다.
   - **브라우저**: `streamlit run src/ui/app.py`로 띄운 앱을 직접 조작.
   - **문서**: [experiments/](experiments/)의 실행 결과.
-- 그 뒤의 변경(무료 스택 전환, 자동 평가)은 [eval/prior_art_eval.md](eval/prior_art_eval.md)의 실험 요약표로 추적한다.
+- 그 뒤의 변경([LLM 제공자 분리 + 로컬 임베딩](decisions/005-free-stack.md), 자동 평가)은 [eval/prior_art_eval.md](eval/prior_art_eval.md)의 실험 요약표로 추적한다.
 
 ## 요약
 | 영역 | 항목 수 | 통과 | 실패 | 미확인 |

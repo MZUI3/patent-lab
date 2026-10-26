@@ -1,6 +1,6 @@
 # 아키텍처 — RAG 파이프라인 설계
 
-한국 특허 10,284건(반도체 테스트 IPC G01R 31/3183 전체 985건 + 8개 분야 대표 특허 + 조사 중 KIPRIS 검색으로 받은 특허)에 대한 근거 기반 선행기술 조사·질의응답 서비스의 RAG 파이프라인 설계를 정리한다. 수치는 모두 2026-10-22 실데이터 실행 결과다. 1~7절은 질의응답 파이프라인(LangGraph), 8절은 그 위에 만든 선행기술 조사 기능이다.
+한국 특허 10,284건(반도체 테스트 IPC G01R 31/3183 전체 985건 + 8개 분야 대표 특허 + 조사 중 KIPRIS 검색으로 받은 특허)에 대한 근거 기반 선행기술 조사·질의응답 서비스의 RAG 파이프라인 설계를 정리한다. 수치는 따로 적지 않으면 2026-10-22 실데이터 실행 결과이고, [LLM 제공자 분리 + 로컬 임베딩](decisions/005-free-stack.md)으로 바꾸기 전 설정(gpt-4o-mini / gpt-4.1, text-embedding-3-small) 기준이다. 바꾼 뒤의 수치는 [eval/prior_art_eval.md](eval/prior_art_eval.md)에 쌓는다. 1~7절은 질의응답 파이프라인(LangGraph), 8절은 그 위에 만든 선행기술 조사 기능이다.
 
 ## 1. 전체 구조
 ```
@@ -22,7 +22,7 @@
 - 수집을 retrieve 노드 안에 둔 이유: 수집은 질문에 따라 달라지고(검색어가 질문에서 나온다) 검색 바로 앞에 끝나야 하므로, 별도 노드로 나누면 상태만 늘고 순서는 같다. 대신 화면에서는 노드 단위 스트림으로 "수집·검색 중 → 답변 생성 중"을 나눠 보여준다.
 
 ## 2. Vector DB 컬렉션과 메타데이터
-Chroma 영구 저장소(`chroma_db/`), 거리 cosine. 임베딩 모델은 `src/config.py`의 `EMBEDDING_PROVIDER`·`EMBEDDING_MODEL`로 정한다 — 처음에는 OpenAI `text-embedding-3-small`(1,536차원)을 썼고, 교육용 키 만료 뒤 비용 0원을 위해 로컬 `BAAI/bge-m3`(1,024차원, CPU)로 바꿨다 (README의 "임베딩 모델 바꾸기"). 아래 수치는 전환 전 측정값이다.
+Chroma 영구 저장소(`chroma_db/`), 거리 cosine. 임베딩 모델은 `src/config.py`의 `EMBEDDING_PROVIDER`·`EMBEDDING_MODEL`로 정한다 — 처음에는 OpenAI `text-embedding-3-small`(1,536차원)을 썼고, 기존 API 키가 만료된 뒤 운영 비용 0원을 위해 로컬 `BAAI/bge-m3`(1,024차원, CPU)로 바꿨다 ([005](decisions/005-free-stack.md), README의 "임베딩 모델 바꾸기"). 아래 수치는 전환 전 측정값이다.
 
 ### patent_meta (RAG 1) — 항목 메타데이터
 | 항목 | 값 |
@@ -73,7 +73,7 @@ Chroma 영구 저장소(`chroma_db/`), 거리 cosine. 임베딩 모델은 `src/c
 
 모든 외부 응답(KIPRIS 검색·상세, 위키 검색·본문)은 `data/raw/`에 캐시하고 저장소에 함께 둔다.
 
-**색인 공유 (스냅샷)** — Chroma 저장소(`chroma_db/`, 약 180MB 바이너리)는 git에 올리지 않고, 컬렉션의 ID·본문·메타데이터(json.gz)와 임베딩(float16 npz)을 `data/index/`(약 33MB)에 저장해 공유한다 (`src/vectorstore/snapshot.py`). 다른 PC에서 앱을 처음 열면 색인이 비어 있으므로 스냅샷으로 자동 복원한다(약 20초, API 호출 없음). float16으로 줄여도 복원본의 검색 상위 10건이 원본과 순서까지 같았다(통합 점검 snapshot-restore). 그래서 `--rebuild`는 외부 호출 없이 전체를 다시 청킹할 수 있다.
+**색인 공유 (스냅샷)** — Chroma 저장소(`chroma_db/`, 약 150MB 바이너리)는 git에 올리지 않고, 컬렉션의 ID·본문·메타데이터(json.gz)와 임베딩(float16 npz)을 `data/index/`(약 23MB)에 저장해 (두 크기 모두 bge-m3 색인, 2026-10-25 측정) 공유한다 (`src/vectorstore/snapshot.py`). 다른 PC에서 앱을 처음 열면 색인이 비어 있으므로 스냅샷으로 자동 복원한다(약 20초, API 호출 없음). float16으로 줄여도 복원본의 검색 상위 10건이 원본과 순서까지 같았다(통합 점검 snapshot-restore). 그래서 `--rebuild`는 외부 호출 없이 전체를 다시 청킹할 수 있다.
 
 **실행 예** (지터 특허, "지터를 측정하는 원리와 지터가 중요한 이유")
 - 검색어 `지터`, `반도체 테스트`, `신호 품질` → 위키 후보 15개 중 `지터`만 선별하고 데릭 지터·베지터·테라다인·HDMI 등 14개는 버림
@@ -121,7 +121,7 @@ Chroma 영구 저장소(`chroma_db/`), 거리 cosine. 임베딩 모델은 `src/c
 | `MMR_FETCH_K` / `MMR_LAMBDA` | 30 / 0.5 | 한 특허의 문서 청크가 수십 개라 30개면 사실상 전체 후보를 본다 |
 | `PRIOR_ART_CANDIDATES` / `PRIOR_ART_MAX` | 20 / 5 | 메타데이터 MMR 검색 20건 → 청구항까지 대비할 특허 5건. KIPRIS 호출은 조사 1회 키워드 검색 1~4회 + 청구항 최대 5회(모두 캐시) |
 | `KIPRIS_FIELDS` / `ONDEMAND_ROWS` | 9개 분야 / 100 | 미리 받을 분야(IPC·건수)와, 조사 중 키워드 검색 1회에 받을 건수 |
-| `PRIOR_ART_MODEL` | gpt-4.1 | 구성요소 대비는 "인공지능 모델 ↔ 신경망"처럼 미세한 판정이라, 기본 모델(gpt-4o-mini)에서는 판정이 실행마다 흔들렸다 (9절) |
+| `PRIOR_ART_MODEL` | Gemini 키: gemini-3.5-flash-lite / OpenAI·GMS 키: gpt-4.1 | 구성요소 대비는 "인공지능 모델 ↔ 신경망"처럼 미세한 판정이라, 기본 모델(gpt-4o-mini)에서는 판정이 실행마다 흔들려 상위 모델을 따로 둔다 (9절). Gemini 무료 등급에서는 상위 모델(3.5-flash)이 일일 20회라 조사 세 번이면 끝나므로 기본 모델과 같은 flash-lite를 쓴다 ([005](decisions/005-free-stack.md)) |
 
 **청크 크기 변경** (`--rebuild`, 지터 특허 문서 3건)
 | 설정 | 청크 수 | 청구항 청크 | 위키 청크 |
