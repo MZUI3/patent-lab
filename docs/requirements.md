@@ -61,6 +61,5 @@
 | 특허 공보 요약·청구항 | KIPRIS Plus `getBibliographyDetailInfoSearch` | 위와 같음. 질문하거나 조사에서 대비한 특허만 받고(조사 1회 최대 5회 호출) 캐시한다. 원문 링크는 특허청 DOI `10.8080/<출원번호>` |
 | 기술 개념 문서 | 한국어 위키백과 MediaWiki API | 본문 CC BY-SA 4.0 — 제목·URL로 출처 표시. 위키미디어 User-Agent 정책 준수 |
 
-## 6. 이력
-- **2026-10** — 첫 버전(SSAFY AI 코어 프로젝트): 질의응답 RAG(LangGraph)·선행기술 조사·청구항 해설·특허 찾기. 통합 점검 26개 통과 ([qa.md](qa.md))
-- **2026-10-24** — LLM 제공자 분리와 로컬 임베딩(bge-m3)으로 운영 비용 0원, 1만 건 재색인 ([결정 기록](decisions/005-free-stack.md)). 자기 청구항 기반 자동 평가 40사례와 기준선 측정 ([결정 기록](decisions/006-self-retrieval-eval.md)). 설계 결정 기록 7건, 단위 테스트 27개, GitHub Actions CI
+## 6. 버전 기록
+버전별 주요 변경과 측정 결과는 [README](../README.md#버전-기록)에 있다.
