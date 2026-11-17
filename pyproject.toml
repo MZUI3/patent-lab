@@ -1,7 +1,7 @@
 [project]
 name = "patent-lab"
-version = "0.2.0"
-description = "선행기술 조사 RAG — 아이디어를 청구항 구성요소와 대비하고, 겹침 판정을 청구항 원문 구절로 검증"
+version = "0.3.0"
+description = "선행기술 조사·사내 문서 RAG — 청구항 원문 구절 검증, 문서별 열람 권한, 민감도별 LLM 전송 정책, 감사 로그"
 readme = "README.md"
 requires-python = ">=3.12"
 license = { file = "LICENSE" }

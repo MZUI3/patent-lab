@@ -1,0 +1,167 @@
+{
+  "synced_at": "2026-11-05T01:25:44+09:00",
+  "documents": [
+    {
+      "id": "INV-2026-014",
+      "title": "스캔 체인 고장 위치 예측용 학습 데이터 생성 방법",
+      "kind": "발명 신고서",
+      "level": "기밀",
+      "allow": [
+        "team:dft",
+        "role:ip"
+      ],
+      "version": "1.2",
+      "updated": "2026-09-14",
+      "fingerprint": "4f4927c743e6",
+      "chunks": 2,
+      "flagged": []
+    },
+    {
+      "id": "INV-2026-021",
+      "title": "셀 단위 가스·온도 복합 감지 배터리 열폭주 조기 경보",
+      "kind": "발명 신고서",
+      "level": "기밀",
+      "allow": [
+        "team:battery",
+        "role:ip"
+      ],
+      "version": "1.0",
+      "updated": "2026-10-02",
+      "fingerprint": "4ac3b43e63f3",
+      "chunks": 1,
+      "flagged": []
+    },
+    {
+      "id": "CTR-2026-003",
+      "title": "2026년 특허 출원 대리 계약 조건",
+      "kind": "계약 메모",
+      "level": "기밀",
+      "allow": [
+        "role:ip"
+      ],
+      "version": "1.0",
+      "updated": "2026-03-05",
+      "fingerprint": "103b523eff24",
+      "chunks": 1,
+      "flagged": []
+    },
+    {
+      "id": "RPT-2026-031",
+      "title": "메모리 BIST 알고리즘별 불량 검출률 비교",
+      "kind": "실험 보고서",
+      "level": "내부",
+      "allow": [
+        "team:dft"
+      ],
+      "version": "2.0",
+      "updated": "2026-08-28",
+      "fingerprint": "a0b59ee1c7e4",
+      "chunks": 1,
+      "flagged": []
+    },
+    {
+      "id": "RPT-2026-044",
+      "title": "온도별 프로브 카드 접촉 저항 측정",
+      "kind": "실험 보고서",
+      "level": "내부",
+      "allow": [
+        "team:dft"
+      ],
+      "version": "1.0",
+      "updated": "2026-10-10",
+      "fingerprint": "b621f4f62aec",
+      "chunks": 1,
+      "flagged": []
+    },
+    {
+      "id": "TBL-2026-007",
+      "title": "셀 열폭주 시험 결과 (셀 16개)",
+      "kind": "실험 데이터",
+      "level": "내부",
+      "allow": [
+        "team:battery"
+      ],
+      "version": "1.1",
+      "updated": "2026-09-30",
+      "fingerprint": "d364890d96cc",
+      "chunks": 2,
+      "flagged": []
+    },
+    {
+      "id": "VND-2026-005",
+      "title": "공급사 A 고온용 프로브 카드 제안서",
+      "kind": "외부 수신 문서",
+      "level": "내부",
+      "allow": [
+        "team:dft"
+      ],
+      "version": "1.0",
+      "updated": "2026-10-15",
+      "fingerprint": "18d286ad421d",
+      "chunks": 1,
+      "flagged": [
+        "지시 무시",
+        "AI에게 직접 지시",
+        "답변 조작"
+      ]
+    },
+    {
+      "id": "MTG-2026-09",
+      "title": "2026년 9월 연구·특허 협의회 회의록",
+      "kind": "회의록",
+      "level": "내부",
+      "allow": [
+        "employee"
+      ],
+      "version": "1.0",
+      "updated": "2026-09-22",
+      "fingerprint": "2f585cf8c53d",
+      "chunks": 1,
+      "flagged": []
+    },
+    {
+      "id": "GUIDE-SEC-001",
+      "title": "연구 자료의 생성형 AI 사용 지침",
+      "kind": "사내 지침",
+      "level": "내부",
+      "allow": [
+        "employee"
+      ],
+      "version": "1.3",
+      "updated": "2026-07-01",
+      "fingerprint": "ad9f713167a2",
+      "chunks": 1,
+      "flagged": []
+    },
+    {
+      "id": "PUB-2026-002",
+      "title": "고장 로그 기반 스캔 체인 진단의 정확도 향상 (학회 발표 초록)",
+      "kind": "공개 자료",
+      "level": "공개",
+      "allow": [
+        "all"
+      ],
+      "version": "1.0",
+      "updated": "2026-06-12",
+      "fingerprint": "2ff3cd2bc1ab",
+      "chunks": 1,
+      "flagged": []
+    },
+    {
+      "id": "PUB-2026-003",
+      "title": "배터리 안전 시험동 가동 (보도자료)",
+      "kind": "공개 자료",
+      "level": "공개",
+      "allow": [
+        "all"
+      ],
+      "version": "1.0",
+      "updated": "2026-05-20",
+      "fingerprint": "f8b7a28cf982",
+      "chunks": 1,
+      "flagged": []
+    }
+  ],
+  "rejected": [],
+  "unregistered": []
+}

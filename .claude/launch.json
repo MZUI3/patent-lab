@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "patent-lab-demo",
+      "runtimeExecutable": "C:\\Users\\qesdf\\Desktop\\VSC잡탕\\ai-pjt-02-gdy\\venv\\Scripts\\python.exe",
+      "runtimeArgs": ["C:\\Users\\qesdf\\AppData\\Local\\Temp\\claude\\1169440e52be08a1\\feb17b2f-275e-46f3-bbcb-f2e1275a1f01\\scratchpad\\run_demo.py", "8501"],
+      "port": 8501
+    }
+  ]
+}

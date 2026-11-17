@@ -83,6 +83,7 @@ PRIOR_ART_MAX = 5                    # 청구항까지 받아 구성요소를 �
 # 임베딩은 "openai"(text-embedding-3-small) 또는 "local"(sentence-transformers, CPU, 비용·호출 없음).
 # 임베딩 모델을 바꾸면 벡터가 달라지므로 색인을 처음부터 다시 만들어야 한다 (README '임베딩 모델 바꾸기').
 GMS_BASE_URL = "https://gms.ssafy.io/gmsapi/api.openai.com/v1"
+OPENAI_BASE_URL = _setting("OPENAI_BASE_URL")   # 다른 OpenAI 호환 주소를 쓸 때만 (env.openai_kwargs)
 GEMINI_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/openai/"
 LLM_PROVIDER = _setting("LLM_PROVIDER") or (
     "openai" if _setting("OPENAI_API_KEY") else "gemini" if _setting("GEMINI_API_KEY") else "gms")
@@ -105,4 +106,30 @@ LOCAL_EMBEDDING_MAX_TOKENS = 1024    # 로컬 모델 입력 길이 상한 — �
 # Gemini 무료 등급은 모델별 분당 10~15회 (2026-10). 429의 "40초 후 재시도"는 SDK 백오프(최대 8초)로는 못 기다리므로 미리 간격을 둔다
 LLM_RPM = int(_setting("LLM_RPM", "10" if LLM_PROVIDER == "gemini" else "0"))   # 분당 요청 상한, 0이면 제한 없음
 LLM_MAX_RETRIES = int(_setting("LLM_MAX_RETRIES", "10" if LLM_PROVIDER == "gemini" else "2"))
+# 요청 하나의 응답 대기 상한(초). SDK 기본값은 600초라, 응답 없이 멈춘 요청 하나가 조사·평가 전체를 10분씩 묶었다
+LLM_TIMEOUT = float(_setting("LLM_TIMEOUT", "90"))
 COMPARE_WORKERS = int(_setting("COMPARE_WORKERS", "1" if LLM_PROVIDER == "gemini" else str(PRIOR_ART_MAX)))
+
+# ── 사내 문서 ─────────────────────────────────────────────────────────────────
+# 원본 파일과 카탈로그(문서마다 등급·열람 주체·버전)를 분리한다. 카탈로그에 없는 파일은 색인하지 않는다.
+INTERNAL_DIR = ROOT / "data" / "internal"
+INTERNAL_CATALOG = INTERNAL_DIR / "catalog.yaml"
+INTERNAL_MANIFEST = ROOT / "data" / "index" / "internal_manifest.json"   # 문서별 버전·지문·청크 수 (색인 현황)
+INTERNAL_COLLECTION = "internal_docs"
+INTERNAL_TOP_K = 5
+INTERNAL_FETCH = 10                  # 권한 필터 검색으로 가져올 수 — 이 중 전송 가능한 것으로 TOP_K를 채운다
+TABLE_ROWS_PER_CHUNK = 8             # 표(CSV)는 행 묶음마다 머리글을 다시 붙여 청크 하나만 봐도 열 이름이 보이게 한다
+
+# ── 계정·감사 로그·전송 정책 ──────────────────────────────────────────────────
+APP_ENV = _setting("APP_ENV", "local")           # local | production (production에서는 데모 계정으로 시작하지 않는다)
+USERS_FILE = Path(_setting("USERS_FILE") or ROOT / "config" / "users.toml")
+AUDIT_LOG = Path(_setting("AUDIT_LOG") or ROOT / "logs" / "audit.jsonl")
+LOGIN_MAX_FAILURES = 5               # 연속 실패 횟수 → 잠금
+LOGIN_LOCK_MINUTES = 15
+
+# 기본 LLM 경로로 보낼 수 있는 최고 등급 (공개 < 내부 < 기밀). 비우면 제공자 약관 기준 기본값 (src/security/policy.py)
+LLM_MAX_LEVEL = _setting("LLM_MAX_LEVEL")
+# 사내 운영 모델 (선택) — Ollama·vLLM 같은 OpenAI 호환 서버. 기본 경로로 못 보내는 기밀 자료는 여기로만 보낸다
+LOCAL_LLM_BASE_URL = _setting("LOCAL_LLM_BASE_URL")
+LOCAL_LLM_MODEL = _setting("LOCAL_LLM_MODEL", "qwen2.5:7b-instruct")
+LOCAL_LLM_MAX_LEVEL = _setting("LOCAL_LLM_MAX_LEVEL", "기밀")

@@ -16,10 +16,14 @@ from src.vectorstore.store import get_store
 class Evidence:
     n: int              # 근거 번호 — 답변의 [근거 n]과 화면 목록을 잇는다
     chunk_id: str
-    source_type: str    # item_meta | patent_claims | wikipedia
+    source_type: str    # item_meta | patent_claims | wikipedia | internal_doc | internal_table
     title: str
-    url: str
+    url: str            # 원문 링크 (사내 문서는 빈 값 — 화면에 문서 ID·버전을 보인다)
     text: str
+    level: str = "공개"     # 민감도 등급 — 특허 공보·위키백과는 공개
+    doc_id: str = ""        # 사내 문서 ID
+    version: str = ""       # 사내 문서 버전
+    flagged: bool = False   # 색인할 때 AI에게 내리는 지시처럼 보이는 구절이 발견됨 (security/guard.py)
 
     @property
     def label(self) -> str:

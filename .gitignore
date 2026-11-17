@@ -24,3 +24,6 @@ venv.bak/
 *.pdf
 submission/
 체크리스트/
+
+# 감사 로그 (운영 데이터 — 저장소에 올리지 않는다)
+logs/

@@ -6,6 +6,8 @@ SOURCE_LABELS = {
     "item_meta": "특허 메타데이터",
     "patent_claims": "KIPRIS 특허공보(청구항)",
     "wikipedia": "한국어 위키백과",
+    "internal_doc": "사내 문서",
+    "internal_table": "사내 실험 데이터",
 }
 
 

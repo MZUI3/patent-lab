@@ -28,6 +28,7 @@ from src.rag.citations import cited_numbers
 from src.rag.graph import build_graph
 from src.rag.prompts import NOT_FOUND
 from src.rag.retriever import Evidence, retrieve_evidence
+from src.security.acl import User
 from src.service.claim_brief import claim_brief
 from src.service.explore import explore
 from src.vectorstore import index_docs
@@ -41,6 +42,7 @@ APP = str(ROOT / "src" / "ui" / "app.py")
 CHECKS = []
 ITEMS = {it.id: it for it in load_items()}
 JITTER = "1020230136220"
+CHECK_USER = User("kim", "점검용 계정", "researcher", ("dft",), daily_limit=100_000)   # 화면 점검은 로그인한 상태로 시작한다
 
 
 def check(code: str, desc: str):
@@ -73,6 +75,7 @@ def run_app(graph: FakeGraph | None = None, open_item: str | None = JITTER) -> A
     st.cache_resource.clear()
     with mock.patch("src.rag.graph.build_graph", return_value=graph or FakeGraph("답 [근거 1]", (1,))):
         at = AppTest.from_file(APP, default_timeout=120)
+        at.session_state["user"] = CHECK_USER
         if open_item:
             at.session_state["sel_search"] = open_item
         at.run()

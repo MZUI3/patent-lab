@@ -1,0 +1,44 @@
+# config/users.toml — 로컬 데모 계정 (가상 인물). 모든 데모 계정의 비밀번호: patentlab-demo
+#
+# 배포할 때는 이 파일을 쓰지 않는다: USERS_TOML 시크릿(이 형식의 TOML 원문)에 실제 계정을 넣는다.
+# APP_ENV=production에서 demo = true인 계정 파일이면 앱이 시작하지 않는다 (src/security/auth.py).
+# 비밀번호 해시 만들기: python -m src.security.auth hash
+#
+# role: guest(방문자) | researcher(연구원) | ip(특허팀) | admin(시스템 관리자 — 운영 현황만, 문서 열람 권한은 따로)
+# teams: 소속 팀 (data/internal/catalog.yaml의 teams), daily_limit: 하루 LLM 요청 상한
+demo = true
+
+[users.kim]
+name = "김도윤 (반도체 테스트팀)"
+role = "researcher"
+teams = ["dft"]
+daily_limit = 40
+password = "pbkdf2_sha256$600000$rRr11rVfWiWZFthz9AISCw==$xC9PdE8bxCJUTPtR8E5XJBGO8FmcJS7sZqqyOFtZfkg="
+
+[users.lee]
+name = "이서연 (배터리 안전팀)"
+role = "researcher"
+teams = ["battery"]
+daily_limit = 40
+password = "pbkdf2_sha256$600000$Q/KzmYoRwncncn0Jl8PWOw==$Bys8QfcglC3B4SgaTXQAWo5jNczNjZa5wVkU5Ps8Rbg="
+
+[users.park]
+name = "박지훈 (특허팀)"
+role = "ip"
+teams = ["ip"]
+daily_limit = 60
+password = "pbkdf2_sha256$600000$0U8n6AzBW/VlVtc53w+CbQ==$24qXgcEB3oBPmIO2vHUfeBoa9t678vt75qby1bMt16M="
+
+[users.choi]
+name = "최운영 (시스템 관리자)"
+role = "admin"
+teams = []
+daily_limit = 20
+password = "pbkdf2_sha256$600000$yVv801nWhWFCfx4+Lk5I3w==$6sxVoCdGGZxcZaih2RvYBdE3qOfT38MaPVXrBhgQRPs="
+
+[users.guest]
+name = "방문자"
+role = "guest"
+teams = []
+daily_limit = 10
+password = "pbkdf2_sha256$600000$cNbfGEQo/PArPQuguJnqkw==$UJ7rX5I0+ilqkvSgDvRDu81QtANFmwQOzPr8smAG+sw="

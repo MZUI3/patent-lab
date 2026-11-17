@@ -54,12 +54,26 @@
 | 비용 | 운영 비용 0원을 유지한다 | LLM은 Gemini 무료 등급(OpenAI 호환), 임베딩은 로컬 bge-m3 | [결정 기록](decisions/005-free-stack.md) |
 | 법·윤리 | 데이터·문서의 출처와 이용 조건을 기록하고 지킨다 | 아래 5절, 근거마다 원문 링크 | 위키 근거에 제목·URL (CC BY-SA 출처 표시) |
 
+### 4-1. 사내 배포 요구사항 (v3)
+연구 조직 안에서 쓴다고 가정했을 때의 요구다. 설계는 [아키텍처 10절](architecture.md#10-사내-배포를-가정한-보안-계층-v3), 측정은 [보안 평가](eval/security_eval.md).
+
+| 분류 | 요구 | 구현 | 확인 |
+|---|---|---|---|
+| 인증 | 로그인한 사용자만 쓰고, 역할(방문자·연구원·특허팀·시스템 관리자)과 팀을 안다 | `security/auth.py`: 계정 파일(PBKDF2 해시), 5회 실패 15분 잠금, 운영 환경에서 데모 계정 거부, 로그아웃 시 세션 전체 삭제 | 단위 테스트, 화면 |
+| 권한 | 사내 문서는 열람 권한이 있는 사람에게만, 답변의 근거로도 권한 밖 문서를 꺼내지 않는다 | `security/acl.py`, `service/internal_qa.py`: 열람 주체 메타데이터 + 벡터 DB 질의 필터 + 이중 확인 | 권한 밖 노출 0/38 (필터 없이 38/38), 정당한 접근 22/22 |
+| 데이터 | 문서·표를 등급·열람 주체·버전과 함께 수집하고, 바뀐 문서(내용·권한)만 다시 색인한다 | `data/internal/catalog.yaml`, `data_prep/internal.py`, `vectorstore/index_internal.py` (CSV는 머리글 붙인 표 청크) | 권한 변경 즉시 반영·버전 미변경 경고·미등록 파일 제외 (단위 테스트) |
+| 전송 | 자료 등급에 따라 보낼 수 있는 LLM만 쓴다. 미공개 발명은 기본으로 기밀 | `security/policy.py`: 경로별 상한, 받을 경로가 없으면 보내지 않음 | 미공개 아이디어 차단 화면, 기밀 본문이 외부 프롬프트에 없음 (단위 테스트) |
+| 악성 지시 | 문서 속 "AI에게 …하라"를 따르지 않고, 출처 없는 링크를 답변에 남기지 않는다 | `security/guard.py`, `rag/prompts.py` INTERNAL_ANSWER | [보안 평가](eval/security_eval.md) 공격 성공률 |
+| 감사 | 누가 언제 어떤 자료를 어느 LLM으로 보냈는지 남기고, 사용자별 사용량을 제한한다 | `security/audit.py`: 입력은 해시만, 경로·등급·보낸/뺀 문서·토큰·시간. 일일 한도, 운영 현황 화면 | 화면 |
+| 운영 | 배포·계정·비밀키·장애·백업 절차가 문서로 있다 | `Dockerfile`, `deploy/huggingface/`, [operations.md](operations.md), [user-guide.md](user-guide.md) | GitHub Actions 이미지 빌드·상태 확인 |
+
 ## 5. 데이터 출처와 이용 조건
 | 데이터 | 출처 | 이용 조건 |
 |---|---|---|
 | 특허 메타데이터 10,284건 | KIPRIS Plus `getAdvancedSearch`·`getWordSearch` (한국특허정보원) | KIPRIS Plus 이용약관과 계정의 월 호출 한도를 따른다. 모든 검색 응답을 캐시하고 호출을 기록한다. **저장소를 공개하거나 배포하기 전에 재배포 조건을 확인한다** |
 | 특허 공보 요약·청구항 | KIPRIS Plus `getBibliographyDetailInfoSearch` | 위와 같음. 질문하거나 조사에서 대비한 특허만 받고(조사 1회 최대 5회 호출) 캐시한다. 원문 링크는 특허청 DOI `10.8080/<출원번호>` |
 | 기술 개념 문서 | 한국어 위키백과 MediaWiki API | 본문 CC BY-SA 4.0 — 제목·URL로 출처 표시. 위키미디어 User-Agent 정책 준수 |
+| 사내 문서 11건 | 이 저장소에서 만든 가상 데이터 (`data/internal`) | 실제 회사·인물과 관계없음. 외부 수신 문서의 공격 문장은 평가용 |
 
 ## 6. 버전 기록
 버전별 주요 변경과 측정 결과는 [README](../README.md#버전-기록)에 있다.

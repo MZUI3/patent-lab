@@ -1,0 +1,123 @@
+# data/internal/catalog.yaml — 사내 문서 카탈로그 (데모용 가상 데이터)
+#
+# 원본 파일은 이 폴더에 두고, 문서마다 등급(level)·열람 주체(allow)·버전을 여기에 적는다.
+# 카탈로그에 없는 파일과 권한 설정이 틀린 문서는 색인하지 않는다 → python -m src.vectorstore.index_internal 보고서.
+# 아래 문서·인물·회사는 모두 데모를 위해 만든 가상 데이터다.
+#
+# level: 공개 | 내부 | 기밀
+# allow: all(외부 방문자 포함) | employee(임직원 전체) | team:<팀> | role:<역할 researcher|ip|admin> | user:<아이디>
+teams:
+  dft: 반도체 테스트팀
+  battery: 배터리 안전팀
+  ip: 특허팀
+
+documents:
+  - id: INV-2026-014
+    file: invention/INV-2026-014.md
+    title: 스캔 체인 고장 위치 예측용 학습 데이터 생성 방법
+    kind: 발명 신고서
+    level: 기밀
+    allow: [team:dft, role:ip]
+    owner: kim
+    version: "1.2"
+    updated: "2026-09-14"
+
+  - id: INV-2026-021
+    file: invention/INV-2026-021.md
+    title: 셀 단위 가스·온도 복합 감지 배터리 열폭주 조기 경보
+    kind: 발명 신고서
+    level: 기밀
+    allow: [team:battery, role:ip]
+    owner: lee
+    version: "1.0"
+    updated: "2026-10-02"
+
+  - id: CTR-2026-003
+    file: contracts/CTR-2026-003.md
+    title: 2026년 특허 출원 대리 계약 조건
+    kind: 계약 메모
+    level: 기밀
+    allow: [role:ip]
+    owner: park
+    version: "1.0"
+    updated: "2026-03-05"
+
+  - id: RPT-2026-031
+    file: reports/RPT-2026-031.md
+    title: 메모리 BIST 알고리즘별 불량 검출률 비교
+    kind: 실험 보고서
+    level: 내부
+    allow: [team:dft]
+    owner: kim
+    version: "2.0"
+    updated: "2026-08-28"
+
+  - id: RPT-2026-044
+    file: reports/RPT-2026-044.md
+    title: 온도별 프로브 카드 접촉 저항 측정
+    kind: 실험 보고서
+    level: 내부
+    allow: [team:dft]
+    owner: kim
+    version: "1.0"
+    updated: "2026-10-10"
+
+  - id: TBL-2026-007
+    file: data/TBL-2026-007.csv
+    title: 셀 열폭주 시험 결과 (셀 16개)
+    kind: 실험 데이터
+    level: 내부
+    allow: [team:battery]
+    owner: lee
+    version: "1.1"
+    updated: "2026-09-30"
+
+  - id: VND-2026-005
+    file: external/VND-2026-005.md
+    title: 공급사 A 고온용 프로브 카드 제안서
+    kind: 외부 수신 문서
+    level: 내부
+    allow: [team:dft]
+    owner: kim
+    version: "1.0"
+    updated: "2026-10-15"
+
+  - id: MTG-2026-09
+    file: meetings/MTG-2026-09.md
+    title: 2026년 9월 연구·특허 협의회 회의록
+    kind: 회의록
+    level: 내부
+    allow: [employee]
+    owner: park
+    version: "1.0"
+    updated: "2026-09-22"
+
+  - id: GUIDE-SEC-001
+    file: guides/GUIDE-SEC-001.md
+    title: 연구 자료의 생성형 AI 사용 지침
+    kind: 사내 지침
+    level: 내부
+    allow: [employee]
+    owner: park
+    version: "1.3"
+    updated: "2026-07-01"
+
+  - id: PUB-2026-002
+    file: public/PUB-2026-002.md
+    title: 고장 로그 기반 스캔 체인 진단의 정확도 향상 (학회 발표 초록)
+    kind: 공개 자료
+    level: 공개
+    allow: [all]
+    owner: kim
+    version: "1.0"
+    updated: "2026-06-12"
+
+  - id: PUB-2026-003
+    file: public/PUB-2026-003.md
+    title: 배터리 안전 시험동 가동 (보도자료)
+    kind: 공개 자료
+    level: 공개
+    allow: [all]
+    owner: lee
+    version: "1.0"
+    updated: "2026-05-20"

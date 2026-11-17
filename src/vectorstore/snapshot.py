@@ -14,13 +14,14 @@ from datetime import date
 import chromadb
 import numpy as np
 
-from src.config import DOC_COLLECTION, EMBEDDING_MODEL, EMBEDDING_PROVIDER, META_COLLECTION, ROOT
+from src.config import DOC_COLLECTION, EMBEDDING_MODEL, EMBEDDING_PROVIDER, INTERNAL_COLLECTION, META_COLLECTION, ROOT
 from src.vectorstore.store import chroma_path
 
 SNAPSHOT_DIR = ROOT / "data" / "index"
 MANIFEST = SNAPSHOT_DIR / "manifest.json"   # 어떤 임베딩 모델로 만든 벡터인지 — 다른 모델 설정에서 복원하면 검색이 틀어진다
 LEGACY_EMBEDDING_MODEL = "text-embedding-3-small"   # manifest가 없던 시절의 스냅샷은 모두 이 모델
 COLLECTIONS = (META_COLLECTION, DOC_COLLECTION)
+OPTIONAL = (INTERNAL_COLLECTION,)   # 사내 문서 — 스냅샷에 없으면 앱이 카탈로그로 색인한다 (index_internal.sync)
 BATCH = 1000
 
 
@@ -51,7 +52,8 @@ def export() -> dict:
     client = chromadb.PersistentClient(path=chroma_path())
     SNAPSHOT_DIR.mkdir(parents=True, exist_ok=True)
     counts, dim = {}, None
-    for name in COLLECTIONS:
+    existing = {c.name for c in client.list_collections()}
+    for name in COLLECTIONS + tuple(n for n in OPTIONAL if n in existing):
         got = client.get_collection(name).get(include=["documents", "metadatas", "embeddings"])
         meta_path, emb_path = _paths(name)
         with gzip.open(meta_path, "wt", encoding="utf-8") as f:
@@ -78,7 +80,7 @@ def restore(progress=lambda msg: None) -> dict:
     client = chromadb.PersistentClient(path=chroma_path())
     existing = {c.name for c in client.list_collections()}
     counts = {}
-    for name in COLLECTIONS:
+    for name in COLLECTIONS + tuple(n for n in OPTIONAL if all(p.exists() for p in _paths(n))):
         meta_path, emb_path = _paths(name)
         with gzip.open(meta_path, "rt", encoding="utf-8") as f:
             data = json.load(f)

@@ -28,9 +28,10 @@ from src.data_prep import kipris
 from src.data_prep.items import load_items
 from src.data_prep.patent_search import add_patents, search_kipris
 from src.env import MissingAPIKeyError
-from src.rag.llm import get_chat, parse_json_array, parse_json_object
+from src.rag.llm import parse_json_array, parse_json_object
 from src.rag.prompts import ELEMENT_COMPARE, IDEA_ELEMENTS, PRIOR_ART_SELECT, SEARCH_KEYWORDS
 from src.rag.retriever import Evidence, format_evidence
+from src.security import policy
 from src.vectorstore.index_docs import get_splitter
 from src.vectorstore.index_meta import index_items
 from src.vectorstore.store import get_store
@@ -95,6 +96,8 @@ class PriorArtResult:
     element_names: list[str] = field(default_factory=list)   # 구성요소 짧은 이름 (화면용)
     candidate_ids: list[str] = field(default_factory=list)   # 메타데이터 검색 후보의 출원번호 (검색 순서, 평가용)
     selected_ids: list[str] = field(default_factory=list)    # 후보 중 대비 대상으로 고른 출원번호 (선별 순서, 평가용)
+    level: str = "공개"         # 아이디어의 민감도 등급
+    route: str = ""             # 아이디어를 보낸 LLM 경로 (감사 로그·화면 표시)
 
 
 def split_elements(idea: str, llm: BaseChatModel) -> list[tuple[str, str]]:
@@ -203,24 +206,29 @@ def compare(elements: list[str], names: list[str], meta: dict, reason: str, evid
 
 def prior_art_search(idea: str, llm: BaseChatModel | None = None,
                      progress: Callable[[str], None] = lambda msg: None,
-                     expand: bool = True, cached_only: bool = False) -> PriorArtResult:
+                     expand: bool = True, cached_only: bool = False, level: str = "공개") -> PriorArtResult:
     """선행기술 조사.
 
     expand=False면 KIPRIS 키워드 검색으로 색인을 넓히지 않고 이미 색인된 특허로만 조사한다.
     cached_only=True면 청구항이 캐시에 없는 특허는 대비에서 뺀다 (KIPRIS 호출 0회).
     둘 다 자동 평가(src/eval/prior_art_eval.py)에서 외부 호출 없이 같은 조건으로 반복하기 위한 옵션이다.
+    level은 아이디어의 민감도 등급이다 (미공개 발명 = 기밀). 그 등급을 받을 LLM 경로가 없으면 아무것도 보내기 전에
+    policy.SendBlocked로 멈춘다. 공개 등급이 아니면 아이디어에서 뽑은 검색어도 KIPRIS(외부)로 보내지 않는다.
     """
+    route = policy.require_route(level, model=PRIOR_ART_MODEL)
     # 구성요소 대비는 "인공지능 모델 ↔ 신경망"처럼 미세한 판정이라 기본 모델로는 판정이 흔들렸다 → 상위 모델
-    llm = llm or get_chat(model=PRIOR_ART_MODEL)
+    llm = llm or policy.chat_on(route)
 
     progress("아이디어를 구성요소로 나누는 중…")
     pairs = split_elements(idea, llm)
     names, elements = [n for n, _ in pairs], [d for _, d in pairs]
     if not elements:
-        return PriorArtResult(idea, [], 0)
+        return PriorArtResult(idea, [], 0, level=level, route=route.label)
 
     searches, search_error = [], ""
-    if expand:
+    if expand and level != "공개":
+        search_error = "미공개 아이디어라 KIPRIS 키워드 검색(외부 전송)을 하지 않고 이미 색인된 특허로만 조사"
+    elif expand:
         progress("KIPRIS에서 관련 특허 검색 중…")
         searches, search_error = expand_index(idea, llm)
 
@@ -255,7 +263,7 @@ def prior_art_search(idea: str, llm: BaseChatModel | None = None,
                                     zip(picked, evidence)))
     comparisons.sort(key=lambda c: c.overlap, reverse=True)
     return PriorArtResult(idea, elements, len(docs), comparisons, searches, search_error, names,
-                          candidate_ids, selected_ids)
+                          candidate_ids, selected_ids, level, route.label)
 
 
 def main() -> None:
